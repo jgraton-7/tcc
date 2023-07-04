@@ -2,7 +2,7 @@ import './index.css'
 
 function Login(){
     return(
-        <div className="page">
+    <div className="page">
         <form method="POST" class="formLogin">
             <h1>Login</h1>
             <label for="email">E-mail</label>
