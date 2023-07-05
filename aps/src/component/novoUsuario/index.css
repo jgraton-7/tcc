@@ -17,17 +17,21 @@ body {
     
 }
 
-.formLogin {
+.NovoUsuario{
     width: 600px;
-    height: 780px;
-    display: flex;
-    flex-direction: column;
     background-color: #fff;
     border-radius: 7px;
     padding: 40px;
     box-shadow: 10px 10px 40px rgba(0, 0, 0, 0.4);
     gap: 5px
 }
+
+.formLogin{
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+}
+
 
 .selectTypeUser{
     display: flex;
@@ -67,7 +71,7 @@ body {
     width: 420px;
 }
 
-.formLogin h1 {
+.NovoUsuario h1 {
     padding: 0;
     margin: 0;
     font-weight: 500;
@@ -75,18 +79,18 @@ body {
     text-align: center;
 }
 
-.formLogin p {
+.NovoUsuario p {
     display: inline-block;
     font-size: 14px;
     color: #666;
     margin-bottom: 25px;
 }
 
-.formLogin input, select {
+.NovoUsuario input, select {
     padding: 15px;
     font-size: 14px;
     border: 1px solid #ccc;
-    margin-top: 5px;
+    margin-top: 12px;
     border-radius: 4px;
     transition: all linear 160ms;
     outline: none;
@@ -98,16 +102,17 @@ body {
 }
 
 
-.formLogin input:focus {
+.NovoUsuario input:focus {
     border: 1px solid red;
 }
 
-.formLogin label {
+.NovoUsuario label {
+    margin-top: 4px;
     font-size: 14px;
     font-weight: 600;
 }
 
-.formLogin a {
+.NovoUsuario a {
     display: inline-block;
     margin-bottom: 15px;
     font-size: 13px;
@@ -116,11 +121,11 @@ body {
     width: 50%;
 }
 
-.formLogin a:hover {
+.NovoUsuario a:hover {
     color: red;
 }
 
-.alterarSenha{
+.NovoUsuario{
     text-align: start;
 }
 
