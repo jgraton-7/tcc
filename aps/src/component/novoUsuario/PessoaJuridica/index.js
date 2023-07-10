@@ -1,7 +1,7 @@
 
 export default function PessoaJuridica(){
     return(
-        <form method="POST" class="formLogin">
+        <form method="POST" class="formLoginNovoUsuario">
 
             <label for="nome">Nome Da Emapresa</label>
             <input type="text" placeholder="Nome" className="nome"/>

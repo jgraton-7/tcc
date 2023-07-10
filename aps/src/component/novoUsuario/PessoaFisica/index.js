@@ -1,7 +1,7 @@
 
 export default function PessoaFisica(){
     return (
-        <form method="POST" class="formLogin">
+        <form method="POST" class="formLoginNovoUsuario">
 
             <label for="nome">Nome</label>
             <input type="text" placeholder="Nome" className="nome"/>

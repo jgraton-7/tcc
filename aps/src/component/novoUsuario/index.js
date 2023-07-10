@@ -34,7 +34,7 @@ function NovoUsuario(){
         <div className="page">
         <div className='NovoUsuario'>
                 <h1>Cadastrar usuário</h1>
-                <div className='selectTypeUser'>
+                <div className='selectTypeUserNovoUsuario'>
                     <div className='pessoaFisica'>
                         <span onClick={Fisica}>Sou Pessoa Fisica</span>
                     </div>

@@ -1,67 +1,105 @@
-import React from 'react';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
 
-export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top',
-    },
-    title: {
-      display: true,
-      text: 'Consumo de energia eletrica',
-    },
-  },
-};
+import React, { useState , useEffect } from 'react';
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faGear, faCalendarDays, faMoneyBill, faGauge} from '@fortawesome/free-solid-svg-icons'
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: '2021',
-      data: [32,323,322,3213 ,3213 ,3213, 3213 ],
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-    },
-    {
-        label: '2022',
-        data: [32,323,3214,3213 ,432 ,253, 253 ],
-        borderColor: 'rgb(255, 32, 132)',
-        backgroundColor: 'rgba(255, 32, 132, 0.5)',
-      },
-    {
-      label: '2023',
-      data: [13,425,124,5436 ,432 ,153, 463 ],
-      borderColor: 'rgb(53, 162, 235)',
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
-    },
-  ],
-};
+import perfil from '../../assets/img/perfil.jpg'
+
+import './index.css'
+
+import { LineChart } from './LineChart';
+import {GroupedBarChart} from './GroupedBarChart'
 
 function Home() {
-  return <Line options={options} data={data} />;
+
+  const [User, setUser] = useState({
+    name: '',
+    cpf: '',
+    sexo: ''
+  });
+
+  const [Consumo, setConsumo] = useState({
+    consumoTotal: '',
+    consumoEstimado: '',
+    valoraPagar: '',
+    consumoTomadas: [],
+  });
+
+
+    const person = () =>{
+      setUser({
+        name: "jorge",
+        cpf: "39514147820",
+        sexo: 'M'
+      });
+    }
+
+    const Cons = () =>{
+      setConsumo({
+        consumoTotal: '352',
+        consumoEstimado: '954',
+        valoraPagar: '120,43',
+        consumoTomadas: ['24', '32', '49', '52', '73']
+      })
+    }
+
+    useEffect(() => {
+      person();
+      Cons();
+    }, []);
+
+
+  // return <Line options={options} data={data} />;
+  return(
+    <div className='home'>
+      <div className='navbar'>
+          <img src={perfil}></img>
+          <p>{User.name}</p>
+          <ul>
+            <li><a className='icon'><FontAwesomeIcon icon={faGauge} className='fontAwesome' />Dashboard</a></li>
+            <li><a className='icon'><FontAwesomeIcon icon={faMoneyBill} className='fontAwesome' />Payment</a></li>
+            <li><a className='icon'><FontAwesomeIcon icon={faCalendarDays} className='fontAwesome' />attendance</a></li>
+            <li><a className='icon'><FontAwesomeIcon icon={faGear} className='fontAwesome' />Settings</a></li>
+          </ul>
+      </div>
+      <div className='content'>
+        <div className='containerConsumo'>
+          <div className='positionConsumo'>
+          <div className='blockConsumo'>
+            <p className='tilteConsumo'>Consumo total</p>
+            <p className='valorConsumo'>{Consumo.consumoTotal} KWH</p>
+          </div>
+          <div className='blockConsumo'>
+            <p className='tilteConsumo'>Consumo estimada mensal</p>
+            <p className='valorConsumo'>{Consumo.consumoEstimado} KWH</p>
+          </div>
+          <div className='blockConsumo'>
+            <p className='tilteConsumo'>Valor a paga</p>
+            <p className='valorConsumo'>R$: {Consumo.valoraPagar}</p>
+          </div>
+          </div>
+        </div>
+        <div className='containerGraficos'>
+          <div>
+            <div className='linechart'>
+              <LineChart ></LineChart>
+            </div>
+            <div className='groupedBarChart'>
+              <GroupedBarChart></GroupedBarChart>
+            </div>
+          </div>
+          <div className='listTomadas'>
+
+          </div>
+          <div className='consumoDia'>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Home;

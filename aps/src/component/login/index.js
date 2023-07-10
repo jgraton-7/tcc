@@ -10,8 +10,8 @@ function Login(){
             <label for="password">Senha</label>
             <input type="password" placeholder="Digite seu e-mail" className="password"/>
             <div className="links">
-                <a href="/" className="alterarSenha">Esqueci minha senha</a>
-                <a href="/" className="novaConta">Não tenho conta</a>
+                <a href="/resetPassword" className="alterarSenha">Esqueci minha senha</a>
+                <a href="/Cadastro" className="novaConta">Não tenho conta</a>
             </div>
             <input type="submit" value="Acessar" class="btn" />
         </form>

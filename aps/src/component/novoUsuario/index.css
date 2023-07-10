@@ -26,14 +26,14 @@ body {
     gap: 5px
 }
 
-.formLogin{
+.formLoginNovoUsuario{
     display: flex;
     flex-direction: column;
     width: 600px;
 }
 
 
-.selectTypeUser{
+.selectTypeUserNovoUsuario{
     display: flex;
 }
 
@@ -48,11 +48,11 @@ body {
 }
 
 .pessoaFisica{
-    border-radius: 25px 0px 0px 25px;
+    border-radius: 12px 0px 0px 12px;
 }
 
 .pessoaJuridica{
-    border-radius: 0px 25px 25px 0px;
+    border-radius: 0px 12px 12px 0px;
 }
 
 .pessoaFisica span, .pessoaJuridica span{
