@@ -40,32 +40,26 @@ export const data = {
   labels,
   datasets: [
     {
-      label: 'Tomada 1',
+      label: '2020',
       data: [65, 59, 80, 81, 56, 55, 40],
       borderColor: 'rgb(53, 162, 235)',
       backgroundColor: 'rgba(53, 162, 235, 0.5)',
     },
     {
-      label: 'Tomada 2',
+      label: '2021',
       data: [32, 93, 83, 15, 14, 32, 7],
       borderColor: 'rgb(53, 162, 235)',
       backgroundColor: 'rgba(53, 162, 235, 0.5)',
     },
     {
-    label: 'Tomada 3',
+    label: '2022',
     data: [74, 43, 12, 14, 55, 62, 37],
     borderColor: 'rgb(53, 162, 235)',
     backgroundColor: 'rgba(53, 162, 235, 0.5)',
     },
     {
-    label: 'Tomada 4',
+    label: '2023',
     data: [34, 32, 45, 25, 64, 82, 2],
-    borderColor: 'rgb(53, 162, 235)',
-    backgroundColor: 'rgba(53, 162, 235, 0.5)',
-    },
-    {
-    label: 'Tomada 5',
-    data: [42, 13, 32, 43, 76, 32, 84],
     borderColor: 'rgb(53, 162, 235)',
     backgroundColor: 'rgba(53, 162, 235, 0.5)',
     }

@@ -1,3 +1,14 @@
+:root{
+    --main-bg-color-darkmod: #0E0E0E;
+    --second-bg-color-darkmod: #111022;
+    --list-bg-outlet-darkmod-1:#252338;
+    --list-bg-outlet-darkmod-2: #070C1F;
+    --navbar-bg-colot-darkmod: #2E2E48;
+
+}
+
+
+
 .home{
     display: flex;
     background-color: #bce2db;
@@ -89,11 +100,12 @@
 .tilteConsumo{
     font-size: 20px;
     margin-left: 10px;
+    font-weight: bold;
 }
 
 .valorConsumo{
     text-align: center;
-    background-image: linear-gradient(#4df2ef, #25f77c);
+    background-image: linear-gradient(120deg, #6bf5f2, #1be56f);
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
     font-size: 35px;
@@ -103,10 +115,140 @@
     display: flex;
 }
 
-.listTomadas{
+.Tomadas{
+    display: block;
     width: 300px;
     height: 725px;
     margin-left: 60px;
+    margin-right: 35px;
+    margin-top: 25px;
+}
+
+.consumoDia{
+    width: 300px;
+    height: 350px;
+    background-color: white;
+}
+
+.consumoDia1{
+    width: 300px;
+    height: 350px;
     margin-top: 25px;
     background-color: white;
 }
+
+.ListaTomadas{
+    display: block;
+    width: 100%;
+    height: 350px;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+.ListaTomadas::-webkit-scrollbar {
+    width: 8px;               /* width of the entire scrollbar */
+  }
+  
+  .ListaTomadas::-webkit-scrollbar-track {
+    background: #0a0c20;        /* color of the tracking area */
+    height: 15px;
+    padding-left: 5px;  
+    padding-right: 5px;
+  }
+  
+  .ListaTomadas::-webkit-scrollbar-thumb {
+    background-color: lightslategray;    /* color of the scroll thumb */
+  }
+
+
+
+.ListaTomadas p{
+    margin: 0;
+}
+
+
+.name{
+    width: 75%;
+    display: inline-block;
+    background-color: #3c3d4d;
+    color: white;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.name p{
+    margin-left: 15px;
+}
+
+.status{
+    width: 25%;
+    display: inline-block;
+    background-color: #3c3d4d;
+    color: white;
+    text-align: center;
+    padding-top: 3px;
+    padding-bottom: 3px;
+
+}
+
+.nameTomada{
+    width: 75%;
+    display: inline-block;
+    background-color: blueviolet;
+    color: white;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.statusTomada{
+    width: 25%;
+    display: inline-block;
+    background-color: blueviolet ;
+    color: white;
+    text-align: center;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.nameTomada2{
+    width: 75%;
+    display: inline-block;
+    color: white;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.statusTomada2{
+    width: 25%;
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.fundo1{
+    background-color: var(--list-bg-outlet-darkmod-1);
+}
+
+.fundo2{
+    background-color: var(--list-bg-outlet-darkmod-2);
+}
+
+.verde{
+    margin: auto;
+    width: 8px;
+    height: 8px;
+    border-radius: 25px;
+    background-color:rgb(99, 250, 99);
+}
+
+.vermelho{
+    margin: auto;
+    width: 8px;
+    height: 8px;
+    border-radius: 25px;
+    background-color:red;
+    
+}
+

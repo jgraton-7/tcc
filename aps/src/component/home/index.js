@@ -27,6 +27,16 @@ function Home() {
     consumoTomadas: [],
   });
 
+  const [Tomadas, setTomadas] = useState([
+    {idTomada: 1, nameTomada: 'Tomada Computador', status:'ativo'},
+    {idTomada: 2, nameTomada: 'Tomada Geladeira', status:'ativo'},
+    {idTomada: 3, nameTomada: 'Tomada Fogão', status:'inativo'},
+    {idTomada: 4, nameTomada: 'Tomada Banheiro', status:'inativo'},
+    {idTomada: 5, nameTomada: 'Tomada TV Sala', status:'ativo'},
+    {idTomada: 6, nameTomada: 'Tomada TV Quarto', status:'ativo'},
+    {idTomada: 7, nameTomada: 'Tomada Alexa', status:'ativo'}
+  ]);
+
 
     const person = () =>{
       setUser({
@@ -90,12 +100,34 @@ function Home() {
               <GroupedBarChart></GroupedBarChart>
             </div>
           </div>
-          <div className='listTomadas'>
+          <div className='Tomadas'>
+            <div className='consumoDia'>
+              <div className='ListaTomadas'>
+                <div className='name'>
+                  <p className=''>Name</p>
+                </div>
+                <div className='status'>
+                  <p className=''>Status</p>
+                </div>
+                <div>
+                  {Tomadas.map( tomada => (
+                    <div className={tomada.idTomada % 2 !== 0 ? 'fundo1' : 'fundo2'}>
+                     <div className='nameTomada2'><a href={'/' + tomada.idTomada}><p>{tomada.nameTomada}</p></a></div>
+                     <div className='statusTomada2'><div className={tomada.status != 'ativo' ? 'vermelho' : 'verde'}></div></div>
+                    </div>
+                  ))
 
+                  }
+                </div>
+              </div>
+              <div>
+              </div>
+            </div>
+            <div className='consumoDia1'>
+
+            </div>
           </div>
-          <div className='consumoDia'>
-            
-          </div>
+
         </div>
       </div>
     </div>
