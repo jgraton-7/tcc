@@ -1,9 +1,10 @@
 
 
 import React, { useState , useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faGear, faCalendarDays, faMoneyBill, faGauge} from '@fortawesome/free-solid-svg-icons'
+import {faGear, faCalendarDays, faMoneyBill, faGauge, faMoon, faSun} from '@fortawesome/free-solid-svg-icons'
 
 import perfil from '../../assets/img/perfil.jpg'
 
@@ -55,6 +56,32 @@ function Home() {
       })
     }
 
+    const [stat, setStat] = useState({
+        setStat: true
+    })
+
+    const alterarEstilo = () => {
+      // Atualiza as variáveis CSS
+     
+      setStat(stat === true ? false : true)
+      if(stat){
+        document.documentElement.style.setProperty('--main-bg-color', '#0E0E0E');
+        document.documentElement.style.setProperty('--second-bg-color', '#111022');
+        document.documentElement.style.setProperty('--list-bg-outlet-1', '#252338');
+        document.documentElement.style.setProperty('--list-bg-outlet-2', '#070C1F');
+        document.documentElement.style.setProperty(' --navbar-bg-colot', '#2E2E48');
+        document.documentElement.style.setProperty(' --list-bg-color-font', '#4ea7b6');
+      }
+      else{
+        document.documentElement.style.setProperty('--main-bg-color', '#bce2db');
+        document.documentElement.style.setProperty('--second-bg-color', 'white');
+        document.documentElement.style.setProperty('--list-bg-outlet-1', '#252338');
+        document.documentElement.style.setProperty('--list-bg-outlet-2', '#070C1F');
+        document.documentElement.style.setProperty(' --navbar-bg-colot', '#2E2E48');
+        document.documentElement.style.setProperty(' --list-bg-color-font', '#4ea7b6');
+      }
+    };
+
     useEffect(() => {
       person();
       Cons();
@@ -73,6 +100,11 @@ function Home() {
             <li><a className='icon'><FontAwesomeIcon icon={faCalendarDays} className='fontAwesome' />attendance</a></li>
             <li><a className='icon'><FontAwesomeIcon icon={faGear} className='fontAwesome' />Settings</a></li>
           </ul>
+          <div>
+            <button onClick={alterarEstilo}>
+              {stat !== true ? <p><FontAwesomeIcon icon={faMoon} /></p> : <p><FontAwesomeIcon icon={faSun} /></p>}
+            </button>
+          </div>
       </div>
       <div className='content'>
         <div className='containerConsumo'>
@@ -112,8 +144,8 @@ function Home() {
                 <div>
                   {Tomadas.map( tomada => (
                     <div className={tomada.idTomada % 2 !== 0 ? 'fundo1' : 'fundo2'}>
-                     <div className='nameTomada2'><a href={'/' + tomada.idTomada}><p>{tomada.nameTomada}</p></a></div>
-                     <div className='statusTomada2'><div className={tomada.status != 'ativo' ? 'vermelho' : 'verde'}></div></div>
+                     <div className='nameTomada2' key={tomada.idTomada}><Link to={`/home/${tomada.idTomada}`} className='linkTomada2'><p>{tomada.nameTomada}</p></Link></div>
+                     <div className='statusTomada2'><div className={tomada.status !== 'ativo' ? 'vermelho' : 'verde'}></div></div>
                     </div>
                   ))
 
@@ -127,7 +159,6 @@ function Home() {
 
             </div>
           </div>
-
         </div>
       </div>
     </div>

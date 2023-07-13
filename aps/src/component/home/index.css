@@ -1,9 +1,10 @@
 :root{
-    --main-bg-color-darkmod: #0E0E0E;
-    --second-bg-color-darkmod: #111022;
-    --list-bg-outlet-darkmod-1:#252338;
-    --list-bg-outlet-darkmod-2: #070C1F;
-    --navbar-bg-colot-darkmod: #2E2E48;
+    --main-bg-color: #bce2db;
+    --second-bg-color: white;
+    --list-bg-outlet-1:#252338;
+    --list-bg-outlet-2: #070C1F;
+    --navbar-bg-colot: #2E2E48;
+    --list-bg-color-font: #4ea7b6;
 
 }
 
@@ -11,14 +12,14 @@
 
 .home{
     display: flex;
-    background-color: #bce2db;
+    background-color: var(--main-bg-color);
 }
 
 .navbar{
     display: block;
     width: 286px;
     height: 100vh;
-    background-color: #2E2E48;
+    background-color: var(--navbar-bg-colot);
     border-radius: 0px 25px 25px 0px;
     color: white;
     text-align: center;
@@ -77,7 +78,7 @@
     margin-left: 45px;
     margin-right: 15px;
     margin-top: 25px;
-    background-color: white;
+    background-color: var(--second-bg-color);
 }
 
 
@@ -86,7 +87,7 @@
     height: 350px;
     margin-left: 45px;
     margin-top: 25px;
-    background-color: white;
+    background-color: var( --second-bg-color);
 }
 
 .groupedBarChart{
@@ -94,7 +95,7 @@
     height: 350px;
     margin-left: 45px;
     margin-top: 25px;
-    background-color: white;
+    background-color: var( --second-bg-color);
 }
 
 .tilteConsumo{
@@ -127,14 +128,14 @@
 .consumoDia{
     width: 300px;
     height: 350px;
-    background-color: white;
+    background-color: var(--second-bg-color);
 }
 
 .consumoDia1{
     width: 300px;
     height: 350px;
     margin-top: 25px;
-    background-color: white;
+    background-color: var(--second-bg-color);
 }
 
 .ListaTomadas{
@@ -154,6 +155,7 @@
     height: 15px;
     padding-left: 5px;  
     padding-right: 5px;
+    color: white;
   }
   
   .ListaTomadas::-webkit-scrollbar-thumb {
@@ -194,7 +196,6 @@
 .nameTomada{
     width: 75%;
     display: inline-block;
-    background-color: blueviolet;
     color: white;
     padding-top: 3px;
     padding-bottom: 3px;
@@ -203,7 +204,6 @@
 .statusTomada{
     width: 25%;
     display: inline-block;
-    background-color: blueviolet ;
     color: white;
     text-align: center;
     padding-top: 3px;
@@ -218,6 +218,10 @@
     padding-bottom: 3px;
 }
 
+.linkTomada2{
+   color: #4ea7b6;
+}
+
 .statusTomada2{
     width: 25%;
     display: inline-block;
@@ -228,11 +232,11 @@
 }
 
 .fundo1{
-    background-color: var(--list-bg-outlet-darkmod-1);
+    background-color: #eff7f5;
 }
 
 .fundo2{
-    background-color: var(--list-bg-outlet-darkmod-2);
+    background-color: #cbdbd8;
 }
 
 .verde{
