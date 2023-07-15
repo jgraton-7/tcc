@@ -19,8 +19,8 @@ export default function PessoaFisica(){
             <input type="password" placeholder="Senha" className="senha"/>
             <label for="senha">Confirmar Senha</label>
             <input type="password" placeholder="Confirmar Senha" className="confirmar"/>
-
-            <input type="submit" value="Cadastrar usuário" class="btn" />
+            
+            <input type="submit" value="Cadastrar usuário" class="btnCadastro" />
         </form>
     );
 }

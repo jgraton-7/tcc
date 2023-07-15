@@ -13,7 +13,12 @@ import './index.css'
 import { LineChart } from './LineChart';
 import {GroupedBarChart} from './GroupedBarChart'
 
+import HookTomadas from '../../hooks'
+
 function Home() {
+
+
+  const  [Tomadas]  = HookTomadas();
 
   const [User, setUser] = useState({
     name: '',
@@ -28,15 +33,7 @@ function Home() {
     consumoTomadas: [],
   });
 
-  const [Tomadas, setTomadas] = useState([
-    {idTomada: 1, nameTomada: 'Tomada Computador', status:'ativo'},
-    {idTomada: 2, nameTomada: 'Tomada Geladeira', status:'ativo'},
-    {idTomada: 3, nameTomada: 'Tomada Fogão', status:'inativo'},
-    {idTomada: 4, nameTomada: 'Tomada Banheiro', status:'inativo'},
-    {idTomada: 5, nameTomada: 'Tomada TV Sala', status:'ativo'},
-    {idTomada: 6, nameTomada: 'Tomada TV Quarto', status:'ativo'},
-    {idTomada: 7, nameTomada: 'Tomada Alexa', status:'ativo'}
-  ]);
+
 
 
     const person = () =>{
@@ -62,7 +59,10 @@ function Home() {
 
     const alterarEstilo = () => {
       // Atualiza as variáveis CSS
-     
+
+      
+      
+
       setStat(stat === true ? false : true)
       if(stat){
         document.documentElement.style.setProperty('--main-bg-color', '#0E0E0E');
@@ -75,8 +75,8 @@ function Home() {
       else{
         document.documentElement.style.setProperty('--main-bg-color', '#bce2db');
         document.documentElement.style.setProperty('--second-bg-color', 'white');
-        document.documentElement.style.setProperty('--list-bg-outlet-1', '#252338');
-        document.documentElement.style.setProperty('--list-bg-outlet-2', '#070C1F');
+        document.documentElement.style.setProperty('--list-bg-outlet-1', '#eff7f5');
+        document.documentElement.style.setProperty('--list-bg-outlet-2', '#cbdbd8');
         document.documentElement.style.setProperty(' --navbar-bg-colot', '#2E2E48');
         document.documentElement.style.setProperty(' --list-bg-color-font', '#4ea7b6');
       }
@@ -95,10 +95,10 @@ function Home() {
           <img src={perfil}></img>
           <p>{User.name}</p>
           <ul>
-            <li><a className='icon'><FontAwesomeIcon icon={faGauge} className='fontAwesome' />Dashboard</a></li>
-            <li><a className='icon'><FontAwesomeIcon icon={faMoneyBill} className='fontAwesome' />Payment</a></li>
-            <li><a className='icon'><FontAwesomeIcon icon={faCalendarDays} className='fontAwesome' />attendance</a></li>
-            <li><a className='icon'><FontAwesomeIcon icon={faGear} className='fontAwesome' />Settings</a></li>
+            <li><a className='icon'><FontAwesomeIcon icon={faGauge} className='fontAwesome' /><span className='textnavBar'>Dashboard</span></a></li>
+            <li><a className='icon'><FontAwesomeIcon icon={faMoneyBill} className='fontAwesome' /><span className='textnavBar'>Payment</span></a></li>
+            <li><a className='icon'><FontAwesomeIcon icon={faCalendarDays} className='fontAwesome' /><span className='textnavBar'>attendance</span></a></li>
+            <li><a className='icon'><FontAwesomeIcon icon={faGear} className='fontAwesome' /><span className='textnavBar'>Settings</span></a></li>
           </ul>
           <div>
             <button onClick={alterarEstilo}>

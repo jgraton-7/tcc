@@ -133,7 +133,7 @@ body {
     text-align: end;
 }
 
-.btn {
+.btnCadastro{
     background-color: blue;
     color: #fff;
     font-size: 14px;
@@ -146,9 +146,83 @@ body {
 }
 
 
-.btn:hover {
+.btnCadastro:hover {
     transform: scale(1.032);
     background-color: #ff0676;
 
 }
 
+@media screen and (max-width: 1500px) {
+
+
+    .NovoUsuario{
+        width: 500px;
+        background-color: #fff;
+        border-radius: 7px;
+        padding: 40px;
+        box-shadow: 10px 10px 40px rgba(0, 0, 0, 0.4);
+        height: 675px;
+    }
+
+    .formLoginNovoUsuario{
+        display: flex;
+        flex-direction: column;
+        width: 500px;
+    }
+
+    .pessoaFisica, .pessoaJuridica{
+        display: block;
+        align-items: center;
+        text-align: center;
+        width: 50%;
+        height: 40px;
+        background: blue;
+        border: 1px black solid;
+    }
+
+
+    .pessoaFisica span, .pessoaJuridica span{
+        display: block;
+        color: white;
+        font-size: 20px;
+        margin-top: 10px;
+    }
+
+    .NovoUsuario h1 {
+        padding: 0;
+        margin: 0;
+        font-weight: 500;
+        font-size: 1.3em;
+        text-align: center;
+    }
+    
+    .NovoUsuario p {
+        display: inline-block;
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 25px;
+    }
+    
+    .NovoUsuario input, select {
+        padding: 15px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        margin-top: 12px;
+        border-radius: 4px;
+        transition: all linear 160ms;
+        outline: none;
+        width: 467px;
+        height: 7px;
+    }
+
+    .btnCadastro {
+        display: block;
+        width: 499px !important;
+        height: 45px !important;
+        text-align: center;
+        margin: auto;
+    }
+
+
+
+}

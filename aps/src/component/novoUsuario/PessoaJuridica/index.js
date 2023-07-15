@@ -20,7 +20,7 @@ export default function PessoaJuridica(){
             <label for="senha">Confirmar Senha</label>
             <input type="password" placeholder="Confirmar Senha" className="confirmar"/>
 
-            <input type="submit" value="Cadastrar usuário" class="btn" />
+            <input type="submit" value="Cadastrar usuário" class="btnCadastro" />
         </form>
     );
 }

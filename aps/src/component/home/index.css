@@ -1,14 +1,12 @@
 :root{
     --main-bg-color: #bce2db;
     --second-bg-color: white;
-    --list-bg-outlet-1:#252338;
-    --list-bg-outlet-2: #070C1F;
+    --list-bg-outlet-1:#eff7f5;
+    --list-bg-outlet-2: #cbdbd8;
     --navbar-bg-colot: #2E2E48;
     --list-bg-color-font: #4ea7b6;
 
 }
-
-
 
 .home{
     display: flex;
@@ -35,7 +33,6 @@
 
 .navbar ul{
     list-style: none;
-    width: 0px;
     text-align: center;
 }
 
@@ -232,11 +229,12 @@
 }
 
 .fundo1{
-    background-color: #eff7f5;
+    background-color: var(--list-bg-outlet-1);
+
 }
 
 .fundo2{
-    background-color: #cbdbd8;
+    background-color: var(--list-bg-outlet-2);
 }
 
 .verde{
@@ -256,3 +254,39 @@
     
 }
 
+
+@media screen and (max-width: 1300px) {
+
+    .navbar li {
+        margin-left: 10px;
+    }
+
+    .navbar p{
+        margin-left: 15px;
+    }
+
+    .navbar button p{
+        margin: 0px;
+    }
+
+    .navbar button{
+        margin-left: 15px;
+        margin-top: 10px;
+    }
+
+
+    .navbar img{
+        margin-left: 15px;
+    }
+
+    .textnavBar{
+        display: none;
+    }
+
+
+
+
+
+
+
+}
