@@ -15,7 +15,6 @@ app.get("/user", (req, res, next) =>{
 app.post("/addUser", (req, res, next) =>{
     console.log(req.body);
     res.sendStatus(402);
-
 });
 
 

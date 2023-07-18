@@ -148,7 +148,6 @@ function Home() {
                      <div className='statusTomada2'><div className={tomada.status !== 'ativo' ? 'vermelho' : 'verde'}></div></div>
                     </div>
                   ))
-
                   }
                 </div>
               </div>
