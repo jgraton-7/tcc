@@ -13,7 +13,7 @@ CREATE TABLE tbl_usuario(
     tipo_usuario			INT(1) NOT NULL,
     id_contratante_usuar	INT(10) NOT NULL
 
-);
+)ENGINE = InnoDB;
 
 CREATE TABLE tbl_tomada(
 
@@ -22,7 +22,7 @@ CREATE TABLE tbl_tomada(
     status_tomada			INT(1) NOT NULL,
     id_contratante_tomad	INT(10) NOT NULL
 
-);
+)ENGINE = InnoDB;
 
 CREATE TABLE tbl_consumo(
 
@@ -31,27 +31,28 @@ CREATE TABLE tbl_consumo(
     data_consumo			DATE NOT NULL,
     id_tomada_consumo		INT(10) NOT NULL
 
-);
+)ENGINE = InnoDB;
 
 CREATE TABLE tbl_contratante(
 
 	id_contratante			INT(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    desc_contratante		VARCHAR(50) NOT NULL,
     tipo_contratante		INT(1) NOT NULL,
     cpfcnpj_contratante		VARCHAR(20) NOT NULL,
-	id_endereco_contr		INT(10) NOT NULL
+	cep_endereco_contr		INT(15) NOT NULL
     
-);
+)ENGINE = InnoDB;
 
 CREATE TABLE tbl_endereco(
-
-	id_endereco				INT(10) PRIMARY KEY NOT NULL,
-    cep_endereco			VARCHAR(9) NOT NULL,
+	
+    cep_endereco			INT(15) PRIMARY KEY NOT NULL,
+	id_endereco				INT(15) NOT NULL,
     logradouro_endereco		VARCHAR(80) NOT NULL,
     bairro_endereco			VARCHAR(60) NOT NULL,
     cidade_endereco			VARCHAR(60) NOT NULL,
     estado_endereco			CHAR(2) NOT NULL
 
-);
+)ENGINE = InnoDB;
 
 # Criação das chaves estramgeiras
 
@@ -71,16 +72,17 @@ FOREIGN KEY (id_contratante_usuar)
 REFERENCES tbl_contratante(id_contratante);
 
 ALTER TABLE tbl_contratante
-ADD CONSTRAINT fk_id_endereco_contr
-FOREIGN KEY (id_endereco_contr)
-REFERENCES tbl_endereco(id_endereco);
+ADD CONSTRAINT fk_cep_endereco_contr
+FOREIGN KEY (cep_endereco_contr)
+REFERENCES tbl_endereco(cep_endereco);
 
 # Criação das Views
 
 CREATE OR REPLACE VIEW vw_tomada_consumo AS
 	SELECT id_tomada, desc_tomada, 
 			status_tomada, id_contratante_tomad, 
-			id_consumo, consumo_hora, data_consumo, 
-			id_tomada_consumo
+			id_consumo, consumo_hora, 
+            data_consumo, id_tomada_consumo, 
+            SUM(consumo_hora), AVG(consumo_hora)
 	FROM tbl_tomada t, tbl_consumo c
 	WHERE id_tomada = id_tomada_consumo;

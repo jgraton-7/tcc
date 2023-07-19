@@ -1,13 +1,25 @@
-USE tomada;
+USE tomadas;
 
 # Populando banco de dados tomada
 
-INSERT INTO tbl_usuario (nome_usuario, email_usuario, );
+INSERT INTO tbl_contratante (desc_contratante, tipo_contratante,
+							cpfcnpj_contratante, cep_endereco_contr)
+VALUES
+('CBF', 0, '11223344556677', 6780230),
+('CBF', 1, '12345678910', 6780235),
+('CBF', 0, '76655443322110', 6790020),
+('CBF', 0, '44556677889900', 6753420),
+('CBF', 0, '22334455667788', 6790000);
 
-
-
-
-
+INSERT INTO tbl_usuario (nome_usuario, email_usuario,
+						senha_usuario, tipo_usuario,
+                        id_contratante_usuar)
+VALUES
+('Mauro Silva', 'mauro.silva@gmail.com', 'Mauro.Silva', 1, 1),
+('Ronaldo Nazário', 'ronaldo.nazario@gmail.com', 'Ronaldo.Nazário', 0, 2),
+('Mário Zagallo', 'mario.zagallo@gmail.com', 'Mário.Zagallo', 1, 3),
+('Carlos Alberto Parreira', 'carlos.parreira@gmail.com', 'Carlos.Parreira', 0, 3),
+('Djalma Santos', 'djalma.santos@gmail.com', 'Djalma.Santos', 1, 2);
 
 INSERT INTO tbl_endereco (id_endereco, cep_endereco, 
 							logradouro_endereco, bairro_endereco, 
