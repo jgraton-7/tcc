@@ -6,10 +6,10 @@ INSERT INTO tbl_contratante (desc_contratante, tipo_contratante,
 							cpfcnpj_contratante, cep_endereco_contr)
 VALUES
 ('CBF', 0, '11223344556677', 6780230),
-('CBF', 1, '12345678910', 6780235),
-('CBF', 0, '76655443322110', 6790020),
-('CBF', 0, '44556677889900', 6753420),
-('CBF', 0, '22334455667788', 6790000);
+('Djalma Santos', 1, '12345678910', 6780235),
+('BDSM', 0, '76655443322110', 6790020),
+('Receita Federal', 0, '44556677889900', 6753420),
+('Ultragás', 0, '22334455667788', 6790000);
 
 INSERT INTO tbl_usuario (nome_usuario, email_usuario,
 						senha_usuario, tipo_usuario,
