@@ -6,6 +6,7 @@ import Login from './component/Login';
 import NovoUsuario from './component/novoUsuario';
 import EsqueciMinhaSenha from './component/EsqueciMinhaSenha'
 import DetalhesItem from './component/detalheItens'
+import Payment from './component/payment';
 
 
 
@@ -19,6 +20,7 @@ function AppRouter(){
                 <Route path='/resetPassword' element={<EsqueciMinhaSenha />} />
                 <Route path='/home' element={<Home />} />
                 <Route path='/home/:id' element={<DetalhesItem />} />
+                <Route path='/payment' element={<Payment />} />
             </Routes>
             
             

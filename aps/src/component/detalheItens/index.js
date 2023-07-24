@@ -85,9 +85,6 @@ export const optionsbar = {
   },
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October ', 'November ', 'December' ];
-
-
 function DetalhesItem(){
   
   const {id} = useParams();
@@ -153,7 +150,6 @@ function DetalhesItem(){
 
   console.log(consumoMes.February);
 
-
   const labels = [1, 2, 3, 4, 5, 6,7 ,8 ,9 ,10 ,11 ,12 ,13 ,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
 
   const data = {
@@ -167,9 +163,7 @@ function DetalhesItem(){
       }
     ],
   };
-  
-  // 
-  
+
   const [User, setUser] = useState({
     name: '',
     cpf: '',
@@ -182,7 +176,7 @@ function DetalhesItem(){
           <img src={perfil}></img>
           <p>{User.name}</p>
           <ul>
-            <li><a className='icon'><FontAwesomeIcon icon={faGauge} className='fontAwesome' /><span className='textnavBar'>Dashboard</span></a></li>
+            <li><a className='icon' href='/home'><FontAwesomeIcon icon={faGauge} className='fontAwesome' /><span className='textnavBar'>Dashboard</span></a></li>
             <li><a className='icon'><FontAwesomeIcon icon={faMoneyBill} className='fontAwesome' /><span className='textnavBar'>Payment</span></a></li>
             <li><a className='icon'><FontAwesomeIcon icon={faCalendarDays} className='fontAwesome' /><span className='textnavBar'>attendance</span></a></li>
             <li><a className='icon'><FontAwesomeIcon icon={faGear} className='fontAwesome' /><span className='textnavBar'>Settings</span></a></li>
