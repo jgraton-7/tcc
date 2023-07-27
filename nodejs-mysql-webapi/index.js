@@ -13,6 +13,10 @@ const app = express();
 app.use(express.json()); 
 
 
+const cors = require('cors')
+
+app.use(cors());
+
 // Configuração da conexão com o banco de dados
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -38,7 +42,7 @@ app.listen(process.env.PORT, () => {
 });
 
 
-app.post('/Login', (req, res) => {
+app.post('/FindUser', (req, res) => {
     // Obtenha os dados do corpo da requisição (request body)
     console.log(req.body);
     const email = req.body.email_usuario
@@ -46,7 +50,7 @@ app.post('/Login', (req, res) => {
     console.log(login);
 
     // Monta a consulta SQL dinamicamente com os dados recebidos
-    const sqlQuery = `SELECT * FROM tbl_usuario where email_usuario = ${email.toString()}`;
+    const sqlQuery = `SELECT * FROM tbl_usuario WHERE email_usuario = '${email}'`;
 
     // Executa a consulta ao banco de dados
     connection.query(sqlQuery, (err, results) => {
@@ -60,6 +64,33 @@ app.post('/Login', (req, res) => {
       res.json(results);
     });
   
+
+});
+
+
+app.post('/Login', (req, res) => {
+  // Obtenha os dados do corpo da requisição (request body)
+  const email = req.body.email_usuario
+  const senha = req.body.senha_usuario;
+
+  // Monta a consulta SQL dinamicamente com os dados recebidos
+  const sqlQuery = `SELECT * FROM tbl_usuario WHERE email_usuario = '${email}'`;
+
+  // Executa a consulta ao banco de dados
+  connection.query(sqlQuery, (err, results) => {
+    if (err) {
+      console.error('Erro ao executar a consulta:', err);
+      res.status(500).json({ error: 'Erro ao executar a consulta' });
+      return;
+    }
+    const user = results;
+    if(email == user[0].email_usuario && senha == user[0].senha_usuario){
+      res.status(200).json({message: "Successfully in Login", status: 200 , token: "daojmdf9a03j=f093fa9fjasaj903@"});
+    }
+    else{
+      res.status(403).json({message: "Error in Login", status: 403, token: "daojmdf9a03j=f093fa9fjasaj903@"});
+    }
+  });
 
 });
 

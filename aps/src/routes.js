@@ -9,8 +9,6 @@ import DetalhesItem from './component/detalheItens'
 import Payment from './component/payment';
 
 
-
-
 function AppRouter(){
     return(
         <Router>
@@ -21,9 +19,7 @@ function AppRouter(){
                 <Route path='/home' element={<Home />} />
                 <Route path='/home/:id' element={<DetalhesItem />} />
                 <Route path='/payment' element={<Payment />} />
-            </Routes>
-            
-            
+            </Routes>           
         </Router>
     );
 }

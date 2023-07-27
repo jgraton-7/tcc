@@ -1,14 +1,50 @@
 import './index.css'
+import { useState } from "react"
+import axios from "axios"
 
 function Login(){
+
+
+    const [email_usuario, setEmail] = useState('');
+    const [senha_usuario, setSenha] = useState('');
+
+
+    const onChangeHandlerEmail = event => {
+        setEmail(event.target.value);
+     };
+
+     const onChangeHandlerSenha = event => {
+        setSenha(event.target.value);
+     }
+
+    function handleSubmit(event){
+
+        event.preventDefault()
+        const resposta = {
+            email_usuario,
+            senha_usuario
+        }
+        console.log(JSON.stringify(resposta))
+        axios.post("http://localhost:3000/Login", resposta)
+        .then(Response => console.log(Response))
+        .catch(err => console.log(err)) 
+    }
+
+
     return(
     <div className="page">
-        <form method="POST" class="formLogin">
+        <form onSubmit={handleSubmit} class="formLogin" >
             <h1>Login</h1>
-            <label for="email">E-mail</label>
-            <input type="email" placeholder="Digite seu e-mail" autofocus="true" className="login" />
-            <label for="password">Senha</label>
-            <input type="password" placeholder="Digite seu e-mail" className="password"/>
+            <label>E-mail</label>
+            <input type="email" placeholder="Digite seu e-mail" className="login"
+                   onChange={onChangeHandlerEmail}
+                   value={email_usuario} 
+            />
+            <label>Senha</label>
+            <input type="password" placeholder="Digite seu e-mail" className="password"
+                onChange={onChangeHandlerSenha}
+                value={senha_usuario} 
+            />
             <div className="links">
                 <a href="/resetPassword" className="alterarSenha">Esqueci minha senha</a>
                 <a href="/Cadastro" className="novaConta">Não tenho conta</a>
