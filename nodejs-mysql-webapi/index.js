@@ -67,6 +67,34 @@ app.post('/FindUser', (req, res) => {
 
 });
 
+app.post('/cadastrarUsuario', (req, res) => {
+  // Obtenha os dados do corpo da requisição (request body)
+  const nome = req.body.nome_usuario;
+  const email = req.body.email_usuario;
+  const senha = req.body.senha_usuario;
+  const tipo = req.body.tipo_usuario;
+  const id_contratante = req.body.id_contratante_usuar
+
+  // Monta a consulta SQL dinamicamente com os dados recebidos
+  const sqlQuery = `INSERT INTO tbl_usuario (nome_usuario, email_usuario,senha_usuario,tipo_usuario,id_contratante_usuar)VALUES ('${nome}' , '${email}', '${senha}', '${tipo}', '${id_contratante}')`
+
+  // Executa a consulta ao banco de dados
+  connection.query(sqlQuery, (err, results) => {
+    if (err) {
+      console.error('Erro ao executar a consulta:', err);
+      res.status(500).json({ error: 'Erro ao executar a consulta' });
+    }
+    else{
+      res.status(201).json({message: "Successfully in register you user", status: 200 });
+    }
+
+  });
+
+
+})
+
+
+
 
 app.post('/Login', (req, res) => {
   // Obtenha os dados do corpo da requisição (request body)
@@ -92,5 +120,8 @@ app.post('/Login', (req, res) => {
     }
   });
 
+
 });
+
+
 

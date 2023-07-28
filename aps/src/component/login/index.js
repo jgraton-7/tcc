@@ -1,6 +1,7 @@
 import './index.css'
 import { useState } from "react"
 import axios from "axios"
+import { useNavigate } from 'react-router-dom';
 
 function Login(){
 
@@ -8,6 +9,7 @@ function Login(){
     const [email_usuario, setEmail] = useState('');
     const [senha_usuario, setSenha] = useState('');
 
+    const navigate = useNavigate();
 
     const onChangeHandlerEmail = event => {
         setEmail(event.target.value);
@@ -24,12 +26,12 @@ function Login(){
             email_usuario,
             senha_usuario
         }
-        console.log(JSON.stringify(resposta))
         axios.post("http://localhost:3000/Login", resposta)
-        .then(Response => console.log(Response))
+        .then(resposta => {
+                resposta.status === 200  ? navigate('/home') : navigate('/')
+        })
         .catch(err => console.log(err)) 
     }
-
 
     return(
     <div className="page">

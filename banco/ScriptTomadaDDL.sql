@@ -11,7 +11,8 @@ CREATE TABLE tbl_usuario(
     email_usuario			VARCHAR(150) NOT NULL,
     senha_usuario			VARCHAR(150) NOT NULL,
     tipo_usuario			INT(1) NOT NULL,
-    id_contratante_usuar	INT(10) NOT NULL
+    id_contratante_usuar	INT(10) NOT NULL,
+    authentication_token    VARCHAR(500)
 
 )ENGINE = InnoDB;
 
