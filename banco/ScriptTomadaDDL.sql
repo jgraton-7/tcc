@@ -10,8 +10,8 @@ CREATE TABLE tbl_usuario(
     nome_usuario 			VARCHAR(100) NOT NULL,
     email_usuario			VARCHAR(150) NOT NULL,
     senha_usuario			VARCHAR(150) NOT NULL,
-    tipo_usuario			INT(1) NOT NULL,
-    id_contratante_usuar	INT(10) NOT NULL,
+    permissao_usuario		INT(1) NOT NULL,
+    id_contratante_usuar	INT(10) DEFAULT 1,
     authentication_token    VARCHAR(500)
 
 )ENGINE = InnoDB;
@@ -38,7 +38,7 @@ CREATE TABLE tbl_contratante(
 
 	id_contratante			INT(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
     desc_contratante		VARCHAR(50) NOT NULL,
-    tipo_contratante		INT(1) NOT NULL,
+    plano_contratante		INT(1) NOT NULL,
     cpfcnpj_contratante		VARCHAR(20) NOT NULL,
 	cep_endereco_contr		INT(15) NOT NULL
     
