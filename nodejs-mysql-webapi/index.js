@@ -42,6 +42,54 @@ app.listen(process.env.PORT, () => {
 });
 
 
+app.post('/cadastrarContratante', (req, res) => {
+  // Obtenha os dados do corpo da requisição (request body)
+  const desc_contratante = req.body.desc_contratante;
+  const plano_contratante = req.body.plano_contratante;
+  const cpfcnpj_contratante = req.body.cpfcnpj_contratante;
+  const cep_endereco_contr = req.body.cep_endereco_contr;
+// 
+  // Monta a consulta SQL dinamicamente com os dados recebidos
+  const sqlQuery = `INSERT INTO tbl_contratante(desc_contratante ,plano_contratante, cpfcnpj_contratante, cep_endereco_contr)VALUES ('${desc_contratante}' , ${plano_contratante}, '${cpfcnpj_contratante}', '${cep_endereco_contr}')`
+
+  // Executa a consulta ao banco de dados
+  connection.query(sqlQuery, (err, results) => {
+    if (err) {
+      console.error('Erro ao executar a consulta:', err);
+      res.status(500).json({ error: 'Erro ao executar a consulta' });
+    }
+    else{
+      res.status(201).json({message: "Successfully in register you Contractor", status: 200 });
+    }
+
+  });
+
+
+})
+
+app.post('/findContratante', (req, res) => {
+  // Obtenha os dados do corpo da requisição (request body)
+  const cpfcnpj_contratante = req.body.cpfcnpj_contratante;
+  //estudar viabilidade de token de validacao para dado não possa ser visualisado por qualquer pessoa
+ 
+  // Monta a consulta SQL dinamicamente com os dados recebidos
+  const sqlQuery = ``
+
+  // Executa a consulta ao banco de dados
+  connection.query(sqlQuery, (err, results) => {
+    if (err) {
+      console.error('Erro ao executar a consulta:', err);
+      res.status(500).json({ error: 'Erro ao executar a consulta' });
+    }
+    else{
+      res.status(201).json({message: "Successfully in register you Contractor", status: 200 });
+    }
+
+  });
+
+})
+
+
 app.post('/FindUser', (req, res) => {
     // Obtenha os dados do corpo da requisição (request body)
     console.log(req.body);
@@ -76,12 +124,7 @@ app.post('/cadastrarUsuario', (req, res) => {
   const tipo = req.body.tipo_usuario;
   const id_contratante = req.body.id_contratante_usuar
 // 
-  const id_endereco = req.body.id_endereco;
-  const cep_endereco = req.body.cep_endereco;
-  const logradouro_endereco = req.body.logradouro_endereco;
-  const bairro_endereco = req.body.bairro_endereco;
-  const cidade_endereco = req.body. cidade_endereco;
-  const estado_endereco = req.body.estado_endereco;
+
 
   // Monta a consulta SQL dinamicamente com os dados recebidos
   const sqlQuery = `INSERT INTO tbl_usuario (nome_usuario, email_usuario,senha_usuario,tipo_usuario,id_contratante_usuar)VALUES ('${nome}' , '${email}', '${senha}', '${tipo}', '${id_contratante}')`
@@ -100,7 +143,6 @@ app.post('/cadastrarUsuario', (req, res) => {
 
 
 })
-
 
 //Falta testar e criar o script no insomnia
 app.post('/RemoveUserByLogin', (req, res) => {
@@ -149,10 +191,6 @@ app.post('/RemoveUserByLogin', (req, res) => {
 
 
 })
-
-
-
-
 
 
 app.post('/Login', (req, res) => {
