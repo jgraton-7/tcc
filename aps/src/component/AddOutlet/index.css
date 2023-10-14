@@ -1,0 +1,80 @@
+
+.AddOutlet{
+    display: flex;
+    background-color: #BCE2DB;
+    width: 100%;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.box{
+    width: 600px;
+    height: 600px;
+}
+
+.boxTitle{
+    width: 445px;
+    margin-left: 10px;
+}
+
+.topSideBox{
+    width: 600px;
+    background-color: white;
+    margin-bottom: 10px;
+}
+
+
+.topSideBox{
+    display: flex;
+}
+
+.NovaTomada{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    align-content: flex-end;
+}
+
+.squarePlus{
+    margin-left: 10px;
+    font-size: 35px;
+}
+
+.tableAddOutlet{
+    display: block;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tableAddOutlet tr{
+    width: 100%;
+}
+
+.tableAddOutlet th, .tableAddOutlet td{
+    width: 20%;
+    text-align: center;
+}
+
+.trAddOutlet{
+    width: 100%;
+    height: 25px;
+    background-color: #2E2E48;
+    color: white;
+}
+
+.BackgroudWhite{
+    background-color: white;
+    border-bottom: 2px black solid;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    height: 50px;
+}
+
+.BackgroudGray{
+    background-color: #4F5254;
+}
+
+.AddOutletIcon{
+    background-color: white;
+}

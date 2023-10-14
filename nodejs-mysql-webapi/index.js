@@ -12,7 +12,7 @@ const app = express();
 
 app.use(express.json()); 
 
-
+// Configurar o middleware CORS
 const cors = require('cors')
 
 app.use(cors());
@@ -40,6 +40,119 @@ connection.connect((err) => {
 app.listen(process.env.PORT, () => {
   console.log('Servidor rodando na porta 3000');
 });
+
+
+function media(elemento){
+
+  const len = elemento.length;
+  let consumoMedio = 0;
+  let soma = 0;
+  for (index in elemento){
+    console.log(elemento[index]);
+    soma += elemento[index].valor ;
+  }
+  consumoMedio = soma / len;
+  return consumoMedio;
+}
+
+
+app.post('/calcularMediaConsumo', (req, res) => {
+  // Obtenha os dados do corpo da requisição (request body)
+  const consumoHora = req.body.consumo;
+  console.log(media(consumoHora));
+
+  res.status(200).json({message: "Media: " + media(consumoHora), status: 200 });
+
+})
+
+ app.post('/dadosConsumo', (req,res)=> {
+  
+  const token = req.body.token;
+
+  const sqlQuery = `SELECT * FROM tbl_usuario WHERE authentication_token = '${token}'`;
+  connection.query(sqlQuery, (err, results) => {
+    if (err) {
+      console.log('Erro ao executar a consulta:', err);
+      res.status(401).json({ error: 'falha em consutar o banco de dados' });
+    }
+    else {
+      if(results.length != 1){
+        res.status(401).json({ error: 'Token invalido' });
+      }
+      else if(token == results[0].authentication_token){
+
+
+        res.status(200).json({
+        consumoTotal: '352',
+        consumoEstimado: '954',
+        valoraPagar: '124,43',
+        consumoTomadas: ['24', '32', '49', '52', '73']
+        })
+      }
+      else{
+        res.status(401).json({ error: 'Token invalido' });
+      }
+    } 
+  });
+
+})
+
+app.post('/ListaDeTomadas', (req, res) => {
+  
+  const id = req.body.id;
+
+  const sqlQuery = `SELECT * FROM tbl_usuario WHERE id_usuario = '${id}'`;
+
+  // Executa a consulta ao banco de dados
+  connection.query(sqlQuery, (err, results, next) => {
+    if (err) {
+      console.error('Erro ao executar a consulta:', err);
+      res.status(500).json({ error: 'Erro ao executar a consulta' });
+    }
+    else{
+      const sqlQuery2 = `SElECT * FROM tbl_tomada where id_contratante_tomad = '${results[0].id_contratante_usuar}' `
+      connection.query(sqlQuery2, (err, results) => {
+        if (err) {
+          console.error('Erro ao executar a consulta:', err);
+          res.status(500).json({ error: 'Erro ao executar a consulta' });
+        }
+        else{
+          res.status(200).json({results});
+        }
+        
+      });
+    }
+
+  });
+
+})
+
+app.post('/listaConsumoTomada', (req, res) => {
+  // Obtenha os dados do corpo da requisição (request body)
+  const id_tomada = req.body.id_tomada;
+
+  const sqlQuery = `SELECT * FROM tbl_consumo WHERE id_tomada_consumo = '${id_tomada}'`
+
+  // Executa a consulta ao banco de dados
+  connection.query(sqlQuery, (err, results) => {
+    if (err) {
+      console.error('Erro ao executar a consulta:', err);
+      res.status(500).json({ error: 'Erro ao executar a consulta' });
+    }
+    else{
+      res.status(200).json({results});
+    }
+  });
+})
+
+app.post('/calcularConsumoAtual', (req, res) => {
+
+  const consumoAtual = req.body.consumo;
+
+
+  res.status(200).json({message: consumoAtual, status: 200 });
+})
+
 
 
 app.post('/cadastrarContratante', (req, res) => {
@@ -84,7 +197,6 @@ app.post('/findContratante', (req, res) => {
     else{
       res.status(201).json({message: "Successfully in register you Contractor", status: 200 });
     }
-
   });
 
 })

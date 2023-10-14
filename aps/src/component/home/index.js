@@ -4,7 +4,7 @@ import React, { useState , useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faGear, faCalendarDays, faMoneyBill, faGauge, faMoon, faSun} from '@fortawesome/free-solid-svg-icons'
+import {faGear, faCalendarDays, faMoneyBill, faGauge, faMoon, faSun, faPlus} from '@fortawesome/free-solid-svg-icons'
 
 import perfil from '../../assets/img/perfil.jpg'
 
@@ -15,10 +15,17 @@ import {GroupedBarChart} from './GroupedBarChart'
 
 import HookTomadas from '../../hooks'
 
+import axios from "axios"
+
 function Home() {
 
 
-  const  [Tomadas]  = HookTomadas();
+  const [Tomadas, setTomadas] = useState([{
+    "id_tomada": '',
+    "desc_tomada": "",
+    "status_tomada": "",
+    "id_contratante_tomad": ""
+  }])
 
   const [User, setUser] = useState({
     name: '',
@@ -33,8 +40,19 @@ function Home() {
     consumoTomadas: [],
   });
 
+  React.useEffect(() => {
+    axios.post('http://localhost:3000/dadosConsumo', {"token" : "12345"}).then((response) => {
+      setConsumo(response.data);
+      console.log(response.data)
+    }).catch(err => console.log(err));
+  }, []);
 
-
+  React.useEffect(() => {
+    axios.post('http://localhost:3000/ListaDeTomadas', {"id" : 1}).then((response) => {
+      setTomadas(response.data.results);
+      console.log(response.data.results)
+    }).catch(err => console.log(err));
+  }, []);
 
     const person = () =>{
       setUser({
@@ -44,14 +62,7 @@ function Home() {
       });
     }
 
-    const Cons = () =>{
-      setConsumo({
-        consumoTotal: '352',
-        consumoEstimado: '954',
-        valoraPagar: '120,43',
-        consumoTomadas: ['24', '32', '49', '52', '73']
-      })
-    }
+
 
     const [stat, setStat] = useState({
         setStat: true
@@ -84,7 +95,6 @@ function Home() {
 
     useEffect(() => {
       person();
-      Cons();
     }, []);
 
 
@@ -98,6 +108,7 @@ function Home() {
             <li><a className='icon' href='/home'><FontAwesomeIcon icon={faGauge} className='fontAwesome' /><span className='textnavBar'>Dashboard</span></a></li>
             <li><a className='icon'><FontAwesomeIcon icon={faMoneyBill} className='fontAwesome' /><span className='textnavBar'>Payment</span></a></li>
             <li><a className='icon'><FontAwesomeIcon icon={faCalendarDays} className='fontAwesome' /><span className='textnavBar'>attendance</span></a></li>
+            <li><a className='icon'  href='/addOutlet'><FontAwesomeIcon icon={faPlus} className='fontAwesome' /><span className='add outlet'>Add Outlet</span></a></li>
             <li><a className='icon'><FontAwesomeIcon icon={faGear} className='fontAwesome' /><span className='textnavBar'>Settings</span></a></li>
           </ul>
           <div>
@@ -143,9 +154,9 @@ function Home() {
                 </div>
                 <div>
                   {Tomadas.map( tomada => (
-                    <div className={tomada.idTomada % 2 !== 0 ? 'fundo1' : 'fundo2'}>
-                     <div className='nameTomada2' key={tomada.idTomada}><Link to={`/home/${tomada.idTomada}`} className='linkTomada2'><p>{tomada.nameTomada}</p></Link></div>
-                     <div className='statusTomada2'><div className={tomada.status !== 'ativo' ? 'vermelho' : 'verde'}></div></div>
+                    <div className={tomada.id_tomada % 2 !== 0 ? 'fundo1' : 'fundo2'}>
+                     <div className='nameTomada2' key={tomada.id_tomada}><Link to={`/home/${tomada.id_tomada}`} className='linkTomada2'><p>{tomada.desc_tomada}</p></Link></div>
+                     <div className='statusTomada2'><div className={tomada.status_tomada !== 1 ? 'vermelho' : 'verde'}></div></div>
                     </div>
                   ))
                   }

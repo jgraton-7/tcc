@@ -7,6 +7,7 @@ import NovoUsuario from './component/novoUsuario';
 import EsqueciMinhaSenha from './component/EsqueciMinhaSenha'
 import DetalhesItem from './component/detalheItens'
 import Payment from './component/payment';
+import AddOutlet from './component/AddOutlet';
 
 
 function AppRouter(){
@@ -19,6 +20,7 @@ function AppRouter(){
                 <Route path='/home' element={<Home />} />
                 <Route path='/home/:id' element={<DetalhesItem />} />
                 <Route path='/payment' element={<Payment />} />
+                <Route path='/addOutlet' element={<AddOutlet />} />
             </Routes>           
         </Router>
     );

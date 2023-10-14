@@ -58,7 +58,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: 'Consumo tomadas Ano junly',
+      text: 'Consumo tomadas Ano ',
     },
   },
 };
@@ -86,6 +86,8 @@ export const optionsbar = {
 };
 
 function DetalhesItem(){
+
+  const txt = "Consumo tomadas Ano ";
   
   const {id} = useParams();
   
@@ -105,45 +107,58 @@ function DetalhesItem(){
 
   useEffect(() => {
     MesDefaul();
+    options.plugins.title.text = txt + 'January';
     
   }, []);
 
   const handleSelectChange = (event) => {
     if(event.target.value === 'January'){
       setMes(consumoMes.January);
+      options.plugins.title.text = txt + 'January';
     }
     else if(event.target.value === 'February'){
       setMes(consumoMes.February);
+      options.plugins.title.text = txt + 'February';
     }
     else if(event.target.value === 'March'){
       setMes(consumoMes.March);
+      options.plugins.title.text = txt + 'March';
     }
     else if(event.target.value === 'April'){
       setMes(consumoMes.April);
+      options.plugins.title.text = txt + 'April';
     }
     else if(event.target.value === 'May'){
       setMes(consumoMes.May);
+      options.plugins.title.text = txt + 'May';
     }
     else if(event.target.value === 'June'){
       setMes(consumoMes.June);
+      options.plugins.title.text = txt + 'June';
     }
     else if(event.target.value === 'July'){
       setMes(consumoMes.July);
+      options.plugins.title.text = txt + 'July';
     }
     else if(event.target.value === 'August'){
       setMes(consumoMes.August);
+      options.plugins.title.text = txt + 'August';
     }
     else if(event.target.value === 'September'){
       setMes(consumoMes.September);
+      options.plugins.title.text = txt + 'September';
     }
     else if(event.target.value === 'October'){
       setMes(consumoMes.October);
+      options.plugins.title.text = txt + 'October';
     }
     else if(event.target.value === 'November'){
       setMes(consumoMes.November);
+      options.plugins.title.text = txt + 'November';
     }
     else if(event.target.value === 'December'){
       setMes(consumoMes.December);
+      options.plugins.title.text = txt + 'December';
     }
 
   };
@@ -181,8 +196,6 @@ function DetalhesItem(){
             <li><a className='icon'><FontAwesomeIcon icon={faCalendarDays} className='fontAwesome' /><span className='textnavBar'>attendance</span></a></li>
             <li><a className='icon'><FontAwesomeIcon icon={faGear} className='fontAwesome' /><span className='textnavBar'>Settings</span></a></li>
           </ul>
-          <div>
-          </div>
       </div>
       <div className='content'>
         <div className='containerConsumo'>

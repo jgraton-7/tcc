@@ -8,6 +8,7 @@
 
 }
 
+
 .home{
     display: flex;
     background-color: var(--main-bg-color);
@@ -22,6 +23,11 @@
     color: white;
     text-align: center;
 
+}
+
+.navbar a{
+    text-decoration: none;
+    color: white;
 }
 
 .navbar img{
