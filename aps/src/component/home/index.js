@@ -1,7 +1,6 @@
 
 
 import React, { useState , useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faGear, faCalendarDays, faMoneyBill, faGauge, faMoon, faSun, faPlus} from '@fortawesome/free-solid-svg-icons'
@@ -12,8 +11,6 @@ import './index.css'
 
 import { LineChart } from './LineChart';
 import {GroupedBarChart} from './GroupedBarChart'
-
-import HookTomadas from '../../hooks'
 
 import axios from "axios"
 
@@ -26,6 +23,7 @@ function Home() {
     "status_tomada": "",
     "id_contratante_tomad": ""
   }])
+
 
   const [User, setUser] = useState({
     name: '',
@@ -47,10 +45,11 @@ function Home() {
     }).catch(err => console.log(err));
   }, []);
 
+
   React.useEffect(() => {
     axios.post('http://localhost:3000/ListaDeTomadas', {"id" : 1}).then((response) => {
       setTomadas(response.data.results);
-      console.log(response.data.results)
+      console.log(response.data.results);
     }).catch(err => console.log(err));
   }, []);
 
@@ -155,7 +154,7 @@ function Home() {
                 <div>
                   {Tomadas.map( tomada => (
                     <div className={tomada.id_tomada % 2 !== 0 ? 'fundo1' : 'fundo2'}>
-                     <div className='nameTomada2' key={tomada.id_tomada}><Link to={`/home/${tomada.id_tomada}`} className='linkTomada2'><p>{tomada.desc_tomada}</p></Link></div>
+                     <div className='nameTomada2' key={tomada.id_tomada}><a href={`/home/${tomada.id_tomada}`} className='linkTomada2'><p>{tomada.desc_tomada}</p></a></div>
                      <div className='statusTomada2'><div className={tomada.status_tomada !== 1 ? 'vermelho' : 'verde'}></div></div>
                     </div>
                   ))

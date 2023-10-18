@@ -13,7 +13,7 @@ import {faGear, faCalendarDays, faMoneyBill, faGauge, faMoon, faSun} from '@fort
 
 import perfil from '../../assets/img/perfil.jpg'
 
-
+import axios from "axios"
 
 import React from 'react';
 import {
@@ -81,89 +81,130 @@ export const optionsbar = {
     },
     y: {
       stacked: true,
-    },
+    },  
   },
 };
 
 function DetalhesItem(){
 
-  const txt = "Consumo tomadas Ano ";
-  
+  const [Tomadas2, setTomadas2] = useState();
+  const [Tomadas, setTomadas] = useState([{
+    "id_tomada": '',
+    "desc_tomada": "",
+    "status_tomada": "",
+    "id_contratante_tomad": ""
+  }])
+  const [Consumo, setConsumo] = useState({
+    consumoTotal: '',
+    consumoEstimado: '',
+    valoraPagar: '',
+    consumoTomadas: [],
+  });
+
   const {id} = useParams();
   
-  const  [Tomadas]  = HookTomadas();
-  
-  const tomada = Tomadas[id - 1];
+  let responseApi = [];
+  let soma = 0;
 
-  const consumo = tomada.consumo[0] ;
+  const txt = "Consumo tomadas Ano ";  
 
-  const consumoMes = consumo.consumo[0] ;
-
-  const [mes, setMes] = useState([]);
+  const [FiltorMes, setFiltorMes] = useState("1");
+  const [consumoMes, setconsumoMes] = useState([]);
 
   const MesDefaul = () =>{
-    setMes(consumoMes.January);
+    setconsumoMes(responseApi);
   }
 
   useEffect(() => {
     MesDefaul();
+
+    // api Tomadas
+    axios.post('http://localhost:3000/ListaDeTomadas', {"id" : 1}).then((response) => {
+      setTomadas(response.data.results);
+    }).catch(err => console.log(err));
+    // api Consumo
+    axios.post('http://localhost:3000/dadosConsumo', {"token" : "12345"}).then((response) => {
+      setConsumo(response.data);
+    }).catch(err => console.log(err));
+
+    axios.post('http://localhost:3000/listaConsumoTomadaMes', {
+      "id_tomada": id,
+      "mes": FiltorMes
+    }).then((response) => {
+      for (let index in response.data){
+        responseApi.push(response.data[index].consumo_hora);
+      }
+      console.log(responseApi);
+    }).catch(err => console.log(err));
+
     options.plugins.title.text = txt + 'January';
     
-  }, []);
+  }, [id, FiltorMes]);
 
   const handleSelectChange = (event) => {
     if(event.target.value === 'January'){
-      setMes(consumoMes.January);
+      setFiltorMes('1');
+      setconsumoMes(responseApi);
       options.plugins.title.text = txt + 'January';
     }
     else if(event.target.value === 'February'){
-      setMes(consumoMes.February);
+      setFiltorMes('2');
+      setconsumoMes(responseApi);
       options.plugins.title.text = txt + 'February';
     }
     else if(event.target.value === 'March'){
-      setMes(consumoMes.March);
+      setFiltorMes('3');
+      setconsumoMes(responseApi);
       options.plugins.title.text = txt + 'March';
     }
     else if(event.target.value === 'April'){
-      setMes(consumoMes.April);
+      setFiltorMes('4');
+      setconsumoMes(responseApi);
       options.plugins.title.text = txt + 'April';
     }
     else if(event.target.value === 'May'){
-      setMes(consumoMes.May);
+      setFiltorMes('5');
+      setconsumoMes(responseApi);
       options.plugins.title.text = txt + 'May';
     }
     else if(event.target.value === 'June'){
-      setMes(consumoMes.June);
+      setFiltorMes('6');
+      setconsumoMes(responseApi);
       options.plugins.title.text = txt + 'June';
     }
     else if(event.target.value === 'July'){
-      setMes(consumoMes.July);
+      setFiltorMes('7');
+      setconsumoMes(responseApi);
       options.plugins.title.text = txt + 'July';
     }
     else if(event.target.value === 'August'){
-      setMes(consumoMes.August);
+      setFiltorMes('8');
+      setconsumoMes(responseApi);
       options.plugins.title.text = txt + 'August';
     }
     else if(event.target.value === 'September'){
-      setMes(consumoMes.September);
+      setFiltorMes('9');
+      setconsumoMes(responseApi);
       options.plugins.title.text = txt + 'September';
     }
     else if(event.target.value === 'October'){
-      setMes(consumoMes.October);
+      setFiltorMes('10');
+      setconsumoMes(responseApi);
       options.plugins.title.text = txt + 'October';
     }
     else if(event.target.value === 'November'){
-      setMes(consumoMes.November);
+      setFiltorMes('11');
+      setconsumoMes(responseApi);
       options.plugins.title.text = txt + 'November';
     }
     else if(event.target.value === 'December'){
-      setMes(consumoMes.December);
+      setFiltorMes('12');
+      setconsumoMes(responseApi);
       options.plugins.title.text = txt + 'December';
     }
 
   };
 
-  console.log(consumoMes.February);
 
   const labels = [1, 2, 3, 4, 5, 6,7 ,8 ,9 ,10 ,11 ,12 ,13 ,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
 
@@ -172,7 +213,7 @@ function DetalhesItem(){
     datasets: [
       {
         label: '2023',
-        data: mes,
+        data: consumoMes,
         borderColor: 'rgb(53, 162, 235)',
         backgroundColor: 'rgba(53, 162, 235, 0.5)',
       }
@@ -202,15 +243,15 @@ function DetalhesItem(){
           <div className='positionConsumo'>
           <div className='blockConsumo'>
             <p className='tilteConsumo'>Consumo total</p>
-            <p className='valorConsumo'>{consumo.consumoTotal}</p>
+            <p className='valorConsumo'>{Consumo.consumoTotal}</p>
           </div>
           <div className='blockConsumo'>
             <p className='tilteConsumo'>Consumo estimada mensal</p>
-            <p className='valorConsumo'>{consumo.consumoEstimado}</p>
+            <p className='valorConsumo'>{Consumo.consumoEstimado}</p>
           </div>
           <div className='blockConsumo'>
             <p className='tilteConsumo'>Valor a paga</p>
-            <p className='valorConsumo'>{consumo.valoraPagar}</p>
+            <p className='valorConsumo'>{Consumo.valoraPagar}</p>
           </div>
           </div>
         </div>
@@ -234,9 +275,9 @@ function DetalhesItem(){
                 </div>
                 <div>
                   {Tomadas.map( tomada => (
-                    <div className={tomada.idTomada % 2 !== 0 ? 'fundo1' : 'fundo2'}>
-                     <div className='nameTomada2' key={tomada.idTomada}><a href={`/home/${tomada.idTomada}`} className='linkTomada2'><p>{tomada.nameTomada}</p></a></div>
-                     <div className='statusTomada2'><div className={tomada.status !== 'ativo' ? 'vermelho' : 'verde'}></div></div>
+                    <div className={tomada.id_tomada % 2 !== 0 ? 'fundo1' : 'fundo2'}>
+                     <div className='nameTomada2' key={tomada.id_tomada}><a href={`/home/${tomada.id_tomada}`} className='linkTomada2'><p>{tomada.desc_tomada}</p></a></div>
+                     <div className='statusTomada2'><div className={tomada.status_tomada !== 1 ? 'vermelho' : 'verde'}></div></div>
                     </div>
                   ))
                   }

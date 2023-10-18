@@ -55,6 +55,12 @@ function media(elemento){
   return consumoMedio;
 }
 
+app.get('/TesteESP', (req, res) => {
+  // Obtenha os dados do corpo da requisição (request body)  
+
+  res.json({message: "ESP: Connect"});
+
+})
 
 app.post('/calcularMediaConsumo', (req, res) => {
   // Obtenha os dados do corpo da requisição (request body)
@@ -127,20 +133,20 @@ app.post('/ListaDeTomadas', (req, res) => {
 
 })
 
-app.post('/listaConsumoTomada', (req, res) => {
+app.post('/listaConsumoTomadaMes', (req, res) => {
   // Obtenha os dados do corpo da requisição (request body)
   const id_tomada = req.body.id_tomada;
+  const mes = req.body.mes;
 
-  const sqlQuery = `SELECT * FROM tbl_consumo WHERE id_tomada_consumo = '${id_tomada}'`
-
+  const sqlQuery = `select consumo_hora from tbl_consumo Where id_tomada_consumo = '${id_tomada}' and MONTH(data_consumo) = '${mes}' `
   // Executa a consulta ao banco de dados
-  connection.query(sqlQuery, (err, results) => {
+  connection.query(sqlQuery, (err, results) => { 
     if (err) {
       console.error('Erro ao executar a consulta:', err);
       res.status(500).json({ error: 'Erro ao executar a consulta' });
     }
     else{
-      res.status(200).json({results});
+      res.status(200).json(results);
     }
   });
 })
