@@ -55,10 +55,40 @@ function media(elemento){
   return consumoMedio;
 }
 
+
+app.post('/adicionarMedicaoTomada', (req, res) => {
+
+  const mac_address = req.body.mac_address;
+  // somatoria volt em 1 hora tomada
+  const SomatarioVolt = req.body.volt;
+  // somatoria amper em 1 hora tomada
+  const SomatoriaAmper = req.body.amper;
+
+  const volt = SomatarioVolt/60;
+  const amper = SomatoriaAmper/60;
+
+  const consumo_hora = (volt * amper)/1000;
+
+
+  const sqlQuery = `INSERT INTO tbl_consumo (consumo_hora, data_consumo ,id_tomada_consumo) VALUES ('${consumo_hora}', CURRENT_TIMESTAMP(), '${mac_address}')`
+  // Executa a consulta ao banco de dados
+  connection.query(sqlQuery, (err, results) => { 
+    if (err) {
+      console.error('Erro ao executar a consulta:', err);
+      res.status(500).json({ error: 'Erro ao executar a consulta' });
+    }
+    else{
+      res.status(200).json(results);
+    }
+  });
+
+})
+
+
 app.get('/TesteESP', (req, res) => {
   // Obtenha os dados do corpo da requisição (request body)  
 
-  res.json({message: "ESP: Connect"});
+  res.json({message: new Date().toISOString()});
 
 })
 
@@ -103,6 +133,32 @@ app.post('/calcularMediaConsumo', (req, res) => {
 
 })
 
+
+app.post('/stadoRele1', (req, res) => {
+
+  const valor = req.body.status
+  res.json({valor});
+})
+
+app.post('/stadoRele2', (req, res) => {
+    const https = require('https')
+    
+    const valor = req.body.status
+
+    if(valor == 1){
+      res.status(200).json({message: "ligado"});
+    }
+    else{
+      res.status(200).json({message: "desligado"});
+
+    }
+
+
+
+
+})
+
+
 app.post('/ListaDeTomadas', (req, res) => {
   
   const id = req.body.id;
@@ -125,7 +181,6 @@ app.post('/ListaDeTomadas', (req, res) => {
         else{
           res.status(200).json({results});
         }
-        
       });
     }
 
