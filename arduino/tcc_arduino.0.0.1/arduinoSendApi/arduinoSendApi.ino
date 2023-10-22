@@ -62,9 +62,10 @@ void setup(void){
   Serial.println(WiFi.macAddress()); // imprimir mac address 
  
   //server.on("/", handleRoot);      //Which routine to handle at root location
-
-  server.begin();                  //Start server
+  //server.begin();                  //Start server
+  
   Serial.println("HTTP server started");
+  pinMode(16, OUTPUT);
 }
 //==============================================================
 //                     LOOP
@@ -79,13 +80,26 @@ void loop() {
   // Verifica se o esp está conectado
   if (WiFi.status() == WL_CONNECTED) {  
      
-    //cria a requisição http passando o URL da api node
     HTTPClient http;
-    http.begin(wifiClient, "http://192.168.0.10:3000/TesteESP");// get the result (**the error code**) 
+    http.begin(wifiClient, "http://192.168.0.10:3000/Rele");
     int httpCode = http.GET();
-    response = http.getString();
-    Serial.print(response);              
-    Serial.print(httpCode);        
+    Serial.println(httpCode);
+    if(httpCode){
+      response = http.getString();
+      if(response){
+        digitalWrite(16,HIGH);
+      }
+      else{
+        digitalWrite(16,LOW);
+      }
+      delay(36000);
+    }
+    delay(36000);
+    //Nova requesicão
+    http.begin(wifiClient, "http://192.168.0.10:3000/TesteESP");// get the result (**the error code**) 
+    httpCode = http.GET();
+    Serial.println(httpCode);
+    response = http.getString();     
     //fechando a conexão
     http.end();
   }

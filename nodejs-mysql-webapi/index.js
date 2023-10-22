@@ -84,11 +84,16 @@ app.post('/adicionarMedicaoTomada', (req, res) => {
 
 })
 
+app.post('/TesteESP', (req, res) => {
+  // Obtenha os dados do corpo da requisição (request body)
+  console.log(req.body); 
+  const volt = req.body.volt;
+  const amp = req.body.amp;
 
-app.get('/TesteESP', (req, res) => {
-  // Obtenha os dados do corpo da requisição (request body)  
+  console.log(volt);
+  console.log(amp);
 
-  res.json({message: new Date().toISOString()});
+  res.json({message: 'Volt : ' + volt + ' , Amper : ' + amp});
 
 })
 
@@ -133,28 +138,30 @@ app.post('/calcularMediaConsumo', (req, res) => {
 
 })
 
+app.post('/TesteATMESP', (req, res) => {
 
-app.post('/stadoRele1', (req, res) => {
-
-  const valor = req.body.status
-  res.json({valor});
+  const valor = req.body.pino;
+  console.log(valor)
+  res.status(200);
 })
 
-app.post('/stadoRele2', (req, res) => {
-    const https = require('https')
+
+app.get('/Rele', (req, res) => {
+
+
+    const event = new Date().toLocaleTimeString('pt-BR');
+
+    console.log(event);
     
-    const valor = req.body.status
+    const valor = 1;
 
     if(valor == 1){
-      res.status(200).json({message: "ligado"});
+      res.status(200).json({message: 1});
     }
     else{
-      res.status(200).json({message: "desligado"});
+      res.status(200).json({message: 0});
 
     }
-
-
-
 
 })
 
