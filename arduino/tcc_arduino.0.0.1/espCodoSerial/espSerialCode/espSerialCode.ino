@@ -7,8 +7,10 @@
 #include <Wire.h>
 #include <ArduinoJson.h>
 
-double volt = 0; // for incoming serial data
-double amp = 0; // for incoming serial data
+int volt = 0; // for incoming serial data
+int amp = 0; // for incoming serial data
+String mac_address; // for api salve data base
+
 const char* ssid = "joso_2G7EDC7C";
 const char* password = "jsamv2001";
 WiFiClient wifiClient;
@@ -32,8 +34,7 @@ void setup() {
   Serial.println(ssid);
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());  //IP address assigned to your ESP
-  Serial.print("ESP Board MAC Address:  ");
-  Serial.println(WiFi.macAddress()); // imprimir mac address 
+  mac_address = WiFi.macAddress();
 }
 
 void loop() {
@@ -44,20 +45,27 @@ void loop() {
 
   if (WiFi.status() == WL_CONNECTED) { 
      if (Serial.available() > 0) {
+        HTTPClient http;
         // read the incoming byte:
         volt = Serial.read();
         amp = Serial.read();
-        //volt = 122;
-        //amp =  8.02;
-        DynamicJsonDocument doc(2048);
+        Serial.println("------------------");
+        Serial.println(volt);
+        Serial.println(amp);
+        Serial.println("------------------");
+        DynamicJsonDocument doc(4096);
 
         doc["amp"]  = amp;
         doc["volt"] = volt;
-
+        doc["mac_address"] = mac_address;
         String json = "";
         serializeJson(doc, json);
         Serial.print(json);
-        HTTPClient http;
+        Serial.println("x------------------x");
+        Serial.println(volt);
+        Serial.println(amp);
+        Serial.println("x------------------x");
+        
         //iniciar com client + http api
         http.begin(wifiClient, "http://192.168.0.10:3000/TesteESP");// get the result (**the error code**)
         // passar o content e o tipo de dado no caso json
@@ -69,11 +77,11 @@ void loop() {
         http.end();
      }
      else{
-      Serial.print("Serial nao Disponivel");
+      Serial.print("Serial nao Disponivel ou Não a dados na fila");
      }
   }
   else{
-     Serial.print("ESP8266 Não conectado ao client");
+     Serial.print("ESP8266 Não conectado ao ssid revise sua ssid ou senha");
   }
-  delay(50000);
+  delay(60000);
 }
