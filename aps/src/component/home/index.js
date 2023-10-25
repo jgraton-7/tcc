@@ -31,6 +31,7 @@ function Home() {
     sexo: ''
   });
 
+
   const [Consumo, setConsumo] = useState({
     consumoTotal: '',
     consumoEstimado: '',
@@ -47,7 +48,7 @@ function Home() {
 
 
   React.useEffect(() => {
-    axios.post('http://localhost:3000/ListaDeTomadas', {"id" : 1}).then((response) => {
+    axios.post('http://localhost:3000/ListaDeTomadas', {"id" : 16}).then((response) => {
       setTomadas(response.data.results);
       console.log(response.data.results);
     }).catch(err => console.log(err));

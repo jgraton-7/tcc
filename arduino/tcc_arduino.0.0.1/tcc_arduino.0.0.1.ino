@@ -7,7 +7,7 @@ float ruido = 0.08; //RUÍDO PRODUZIDO NA SAÍDA DO SENSOR (DEVE SER AJUSTADO CO
 
 float consumoMedio = 0;
 int timer = 0;
-int tmp = 3600;
+int tmp = 60;
 String teste ;
 
 EnergyMonitor emon1; //CRIA UMA INSTÂNCIA

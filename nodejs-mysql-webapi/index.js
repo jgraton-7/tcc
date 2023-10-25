@@ -55,6 +55,41 @@ function media(elemento){
   return consumoMedio;
 }
 
+app.post('/releEsp8266', (req, res) => {
+
+  mac_address = req.body.mac_address;
+
+  const sqlQuery = `SELECT status_tomada FROM tbl_tomada WHERE id_tomada = '${mac_address}'`
+
+  connection.query(sqlQuery, (err, results) => { 
+    if (err) {
+      console.error('Erro ao executar a consulta:', err);
+      res.status(500).json({ error: 'Erro ao executar a consulta' });
+    }
+    else{
+      res.status(200).json(results);
+    }
+  });
+})
+
+
+app.post('/ligaTomada', (req, res) => {
+
+  console.log(req.body);
+  const mac_address = req.body.mac_address;
+
+  const sqlQuery = `UPDATE tbl_tomada SET status_tomada = 1 WHERE id_tomada = '${mac_address}'`;
+
+  connection.query(sqlQuery, (err, results) => { 
+    if (err) {
+      console.error('Erro ao executar a consulta:', err);
+      res.status(500).json({ error: 'Erro ao executar a consulta' });
+    }
+    else{
+      res.status(200).json(results);
+    }
+  });
+})
 
 app.post('/adicionarMedicaoTomada', (req, res) => {
 
@@ -67,23 +102,43 @@ app.post('/adicionarMedicaoTomada', (req, res) => {
   const SomatoriaAmper = req.body.amp;
   console.log("Amp :" + SomatoriaAmper);
 
-  const volt = SomatarioVolt/100;
-  const amper = SomatoriaAmper;
+  const volt = SomatarioVolt;
+  // 0.04 A
+  const amp = SomatoriaAmper/100;
 
-  const consumo_hora = (volt * amper)/1000;
+  const consumo_hora = (volt * amp)/1000;
 
 
-  const sqlQuery = `INSERT INTO tbl_consumo (consumo_hora, data_consumo ,id_tomada_consumo) VALUES ('${consumo_hora}', CURRENT_TIMESTAMP(), '${mac_address}')`
-  // Executa a consulta ao banco de dados
-  connection.query(sqlQuery, (err, results) => { 
-    if (err) {
-      console.error('Erro ao executar a consulta:', err);
-      res.status(500).json({ error: 'Erro ao executar a consulta' });
-    }
-    else{
-      res.status(200).json(results);
-    }
-  });
+  if(amp >= 10 || volt > 180 ){
+    const sqlQuery = `UPDATE tbl_tomada SET status_tomada = 0 WHERE id_tomada = '${mac_address}'`;
+    // Executa a consulta ao banco de dados
+    connection.query(sqlQuery, (err, results) => { 
+      if (err) {
+        console.error('Erro ao executar a consulta:', err);
+        res.status(500).json({ error: 'Erro ao executar a consulta' });
+      }
+      else{
+        // nao sei pq funciona mas funciona. Não mexer
+        res.status(200).json(results);
+      }
+    });
+  }
+  else{
+    const sqlQuery = `INSERT INTO tbl_consumo (consumo_hora, data_consumo ,id_tomada_consumo) VALUES ('${consumo_hora}', CURRENT_TIMESTAMP(), '${mac_address}')`
+    // Executa a consulta ao banco de dados
+    connection.query(sqlQuery, (err, results) => { 
+      if (err) {
+        console.error('Erro ao executar a consulta:', err);
+        res.status(500).json({ error: 'Erro ao executar a consulta' });
+      }
+      else{
+        res.status(200).json(results);
+      }
+    });
+  }
+
+
+
 
 })
 
@@ -148,25 +203,6 @@ app.post('/TesteATMESP', (req, res) => {
   res.status(200);
 })
 
-app.get('/Rele', (req, res) => {
-
-
-    const event = new Date().toLocaleTimeString('pt-BR');
-
-    console.log(event);
-    
-    const valor = 1;
-
-    if(valor == 1){
-      res.status(200).json({message: 1});
-    }
-    else{
-      res.status(200).json({message: 0});
-
-    }
-
-})
-
 
 app.post('/ListaDeTomadas', (req, res) => {
   
@@ -181,16 +217,21 @@ app.post('/ListaDeTomadas', (req, res) => {
       res.status(500).json({ error: 'Erro ao executar a consulta' });
     }
     else{
-      const sqlQuery2 = `SElECT * FROM tbl_tomada where id_contratante_tomad = '${results[0].id_contratante_usuar}' `
-      connection.query(sqlQuery2, (err, results) => {
-        if (err) {
-          console.error('Erro ao executar a consulta:', err);
-          res.status(500).json({ error: 'Erro ao executar a consulta' });
-        }
-        else{
-          res.status(200).json({results});
-        }
-      });
+      if(results.length > 0){
+        const sqlQuery2 = `SElECT * FROM tbl_tomada where id_contratante_tomad = '${results[0].id_contratante_usuar}' `
+        connection.query(sqlQuery2, (err, results) => {
+          if (err) {
+            console.error('Erro ao executar a consulta:', err);
+            res.status(500).json({ error: 'Erro ao executar a consulta' });
+          }
+          else{
+            res.status(200).json({results});
+          }
+        });
+      }
+      else{
+        res.status(404).json({message: 'usuario não encontrado'});
+      }
     }
 
   });
