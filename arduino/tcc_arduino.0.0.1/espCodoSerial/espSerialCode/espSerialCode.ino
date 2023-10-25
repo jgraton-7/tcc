@@ -7,9 +7,11 @@
 #include <Wire.h>
 #include <ArduinoJson.h>
 
-int volt = 0; // for incoming serial data
-int amp = 0; // for incoming serial data
+String volt; // for incoming serial data
+String amp; // for incoming serial data
+String serialResult;
 String mac_address; // for api salve data base
+int val;
 
 const char* ssid = "joso_2G7EDC7C";
 const char* password = "jsamv2001";
@@ -39,20 +41,34 @@ void setup() {
 
 void loop() {
   // send data only when you receive data:
-
+  delay(8000);
   String response = "";
   String errorMessage = "";
 
   if (WiFi.status() == WL_CONNECTED) { 
      if (Serial.available() > 0) {
+        int lenAmp = Serial.read();
+        if(lenAmp > 0){
+          for (int i = 0; i < lenAmp; i++){
+              val = Serial.read();
+              if(val != -1){
+                serialResult += char(val);
+              }
+          }
+        }
+        int lenVolt = Serial.read();
+        if (lenVolt > 0){
+          for (int i = 0; i < lenVolt; i++){
+            val = Serial.read();
+            if(val != -1){
+              serialResult += char(val);
+            }
+          }
+        }
+        int index = serialResult.indexOf('\r');
+        amp = serialResult.substring(0, index);
+        volt = serialResult.substring(index + 1, serialResult.length());
         HTTPClient http;
-        // read the incoming byte:
-        volt = Serial.read();
-        amp = Serial.read();
-        Serial.println("------------------");
-        Serial.println(volt);
-        Serial.println(amp);
-        Serial.println("------------------");
         DynamicJsonDocument doc(4096);
 
         doc["amp"]  = amp;
@@ -60,28 +76,26 @@ void loop() {
         doc["mac_address"] = mac_address;
         String json = "";
         serializeJson(doc, json);
-        Serial.print(json);
-        Serial.println("x------------------x");
-        Serial.println(volt);
-        Serial.println(amp);
-        Serial.println("x------------------x");
-        
+
         //iniciar com client + http api
-        http.begin(wifiClient, "http://192.168.0.10:3000/TesteESP");// get the result (**the error code**)
+        http.begin(wifiClient, "http://192.168.0.10:3000/adicionarMedicaoTomada");// get the result (**the error code**)
         // passar o content e o tipo de dado no caso json
         http.addHeader("Content-Type", "application/json");
         int httpCode = http.POST(json);
-        Serial.println(httpCode);
+        //Serial.println(httpCode);
         response = http.getString();     
         //fechando a conexão
         http.end();
+        amp = "";
+        volt = "";
+        serialResult = "";
      }
      else{
-      Serial.print("Serial nao Disponivel ou Não a dados na fila");
+      Serial.println("Serial nao Disponivel ou Não a dados na fila");
      }
   }
   else{
-     Serial.print("ESP8266 Não conectado ao ssid revise sua ssid ou senha");
+     Serial.println("ESP8266 Não conectado ao ssid revise sua ssid ou senha");
   }
-  delay(60000);
+  delay(10000);
 }

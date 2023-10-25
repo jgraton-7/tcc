@@ -59,13 +59,16 @@ function media(elemento){
 app.post('/adicionarMedicaoTomada', (req, res) => {
 
   const mac_address = req.body.mac_address;
+  console.log("mac address :" + mac_address);
   // somatoria volt em 1 hora tomada
   const SomatarioVolt = req.body.volt;
+  console.log("Volt :" + SomatarioVolt);
   // somatoria amper em 1 hora tomada
-  const SomatoriaAmper = req.body.amper;
+  const SomatoriaAmper = req.body.amp;
+  console.log("Amp :" + SomatoriaAmper);
 
-  const volt = SomatarioVolt/60;
-  const amper = SomatoriaAmper/60;
+  const volt = SomatarioVolt/100;
+  const amper = SomatoriaAmper;
 
   const consumo_hora = (volt * amper)/1000;
 
@@ -144,7 +147,6 @@ app.post('/TesteATMESP', (req, res) => {
   console.log(valor)
   res.status(200);
 })
-
 
 app.get('/Rele', (req, res) => {
 
