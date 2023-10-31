@@ -48,12 +48,94 @@ function media(elemento){
   let consumoMedio = 0;
   let soma = 0;
   for (index in elemento){
-    console.log(elemento[index]);
+    //console.log(elemento[index]);
     soma += elemento[index].valor ;
   }
   consumoMedio = soma / len;
   return consumoMedio;
 }
+
+function GenerateToken(length) {
+  const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let token = '';
+  for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * caracteres.length);
+      token += caracteres.charAt(randomIndex);
+  }
+  return token;
+}
+
+
+function preencherMesesComZeros(dados) {
+  const mesesCompletos = [];
+  const mesesDoAno = 12; // Total de meses em um ano
+
+  // Crie um objeto para mapear meses para seus valores
+  const mapaMeses = {};
+  dados.forEach(item => {
+      const { ano, mes, soma } = item;
+      const chave = ano * 100 + mes; // Combina ano e mês em uma única chave
+      mapaMeses[chave] = soma;
+  });
+
+  for (let ano = 2023; ano <= 2023; ano++) {
+      for (let mes = 1; mes <= mesesDoAno; mes++) {
+          const chave = ano * 100 + mes;
+          const soma = mapaMeses[chave] || 0;
+          mesesCompletos.push({ ano, mes, soma });
+      }
+  }
+
+  return mesesCompletos;
+}
+
+function preencherMesesDiaComZeros(dados) {
+  const mesesCompletos = [];
+  const mesesDoAno = 12; // Total de meses em um ano
+
+  // Crie um objeto para mapear meses para seus valores
+  const mapaMeses = {};
+  dados.forEach(item => {
+      const { ano, mes, dia , soma } = item;
+      const chave = ano * 100 + mes * 10 + dia; // Combina ano e mês em uma única chave
+      mapaMeses[chave] = soma;
+  });
+
+  for (let ano = 2023; ano <= 2023; ano++) {
+      for (let mes = 1; mes <= mesesDoAno; mes++) {
+          const chave = ano * 100 + mes;
+          const soma = mapaMeses[chave] || 0;
+          mesesCompletos.push({ ano, mes, soma });
+      }
+  }
+
+  return mesesCompletos;
+}
+
+function preencherAnoMesDiaComZeros(dados) {
+  const datasCompletas = [];
+  
+  const mapaDatas = {};
+  dados.forEach(item => {
+      const { ano, mes, dia, soma } = item;
+      const chave = `${ano}-${mes.toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')}`;
+      mapaDatas[chave] = soma;
+  });
+
+  for (let ano = 2023; ano <= 2023; ano++) {
+      for (let mes = 1; mes <= 12; mes++) {
+          for (let dia = 1; dia <= new Date(ano, mes, 0).getDate(); dia++) {
+              const chave = `${ano}-${mes.toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')}`;
+              const valor = mapaDatas[chave] || 0;
+              datasCompletas.push({ ano, mes, dia, valor });
+          }
+      }
+  }
+
+  return datasCompletas;
+}
+
+
 
 app.post('/releEsp8266', (req, res) => {
 
@@ -75,7 +157,7 @@ app.post('/releEsp8266', (req, res) => {
 
 app.post('/ligaTomada', (req, res) => {
 
-  console.log(req.body);
+  //console.log(req.body);
   const mac_address = req.body.mac_address;
 
   const sqlQuery = `UPDATE tbl_tomada SET status_tomada = 1 WHERE id_tomada = '${mac_address}'`;
@@ -103,10 +185,10 @@ app.post('/adicionarMedicaoTomada', (req, res) => {
   console.log("Amp :" + SomatoriaAmper);
 
   const volt = SomatarioVolt;
-  // 0.04 A
   const amp = SomatoriaAmper/100;
 
   const consumo_hora = (volt * amp)/1000;
+
 
 
   if(amp >= 10 || volt > 180 ){
@@ -137,19 +219,16 @@ app.post('/adicionarMedicaoTomada', (req, res) => {
     });
   }
 
-
-
-
 })
 
 app.post('/TesteESP', (req, res) => {
   // Obtenha os dados do corpo da requisição (request body)
-  console.log(req.body); 
+  //console.log(req.body); 
   const volt = req.body.volt;
   const amp = req.body.amp;
 
-  console.log(volt);
-  console.log(amp);
+ //console.log(volt);
+  //console.log(amp);
 
   res.json({message: 'Volt : ' + volt + ' , Amper : ' + amp});
 
@@ -158,7 +237,7 @@ app.post('/TesteESP', (req, res) => {
 app.post('/calcularMediaConsumo', (req, res) => {
   // Obtenha os dados do corpo da requisição (request body)
   const consumoHora = req.body.consumo;
-  console.log(media(consumoHora));
+  //console.log(media(consumoHora));
 
   res.status(200).json({message: "Media: " + media(consumoHora), status: 200 });
 
@@ -166,40 +245,53 @@ app.post('/calcularMediaConsumo', (req, res) => {
 
  app.post('/dadosConsumo', (req,res)=> {
   
-  const token = req.body.token;
+  const id = req.body.id;
+  let consumoTotal = 0;
+  let consumoDiario = 0;
+  let consumo = 0;
+  let date = new Date();
+  const dia = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
 
-  const sqlQuery = `SELECT * FROM tbl_usuario WHERE authentication_token = '${token}'`;
+  const sqlQuery = `SELECT id_tomada, SUM(consumo_hora) consumo_dia FROM tbl_consumo, tbl_tomada where id_contratante_tomad = '${id}' GROUP BY id_tomada;`;
   connection.query(sqlQuery, (err, results) => {
     if (err) {
       console.log('Erro ao executar a consulta:', err);
       res.status(401).json({ error: 'falha em consutar o banco de dados' });
     }
     else {
-      if(results.length != 1){
-        res.status(401).json({ error: 'Token invalido' });
-      }
-      else if(token == results[0].authentication_token){
-
-
-        res.status(200).json({
-        consumoTotal: '352',
-        consumoEstimado: '954',
-        valoraPagar: '124,43',
-        consumoTomadas: ['24', '32', '49', '52', '73']
+        if(results.length !== 0){
+          consumoTotal = results[0].consumo_dia;
+          consumo = consumoTotal * 0.94;
+        }
+        else{
+          consumoDiario = 0;
+          consumo = 0;
+        }
+        const sqlQuery2 =
+        `SELECT id_tomada, SUM(consumo_hora) consumo_dia, DAY(data_consumo) dia FROM tbl_consumo, tbl_tomada where id_contratante_tomad = '${id}' AND data_consumo = '${dia}' GROUP BY id_tomada;`;
+        connection.query(sqlQuery2, (err, results) => {
+          if (err) {
+            console.log('Erro ao executar a consulta:', err);
+            res.status(401).json({ error: 'falha em consutar o banco de dados' });
+          }
+          else{
+            if(results.length !== 0){
+              consumoDiario = results[0].consumo_dia;
+            }
+            else{
+              consumoDiario = 0;
+            }
+            res.status(200).json({consumoTotal: consumoTotal.toFixed(2), consumoDiario: consumoDiario.toFixed(2), valorPagar: consumo.toFixed(2)})
+          }
         })
-      }
-      else{
-        res.status(401).json({ error: 'Token invalido' });
-      }
-    } 
+      } 
   });
-
 })
 
 app.post('/TesteATMESP', (req, res) => {
 
   const valor = req.body.pino;
-  console.log(valor)
+  //console.log(valor)
   res.status(200);
 })
 
@@ -208,7 +300,7 @@ app.post('/ListaDeTomadas', (req, res) => {
   
   const id = req.body.id;
 
-  const sqlQuery = `SELECT * FROM tbl_usuario WHERE id_usuario = '${id}'`;
+  const sqlQuery = `SELECT * FROM tbl_usuario WHERE id_contratante_usuar = '${id}'`;
 
   // Executa a consulta ao banco de dados
   connection.query(sqlQuery, (err, results, next) => {
@@ -256,14 +348,94 @@ app.post('/listaConsumoTomadaMes', (req, res) => {
   });
 })
 
-app.post('/calcularConsumoAtual', (req, res) => {
+app.post('/listaConsumoTomadaDia', (req, res) => {
+  
+  const id_contratante = req.body.id;
+  const id_tomada = req.body.id_tomada;
 
-  const consumoAtual = req.body.consumo;
+  const sqlQuery = 
+    `SELECT YEAR(data_consumo) AS ano, MONTH(data_consumo) AS mes, DAY(data_consumo) as dia ,SUM(consumo_hora) AS soma 
+    FROM tbl_consumo, tbl_tomada 
+    where id_contratante_tomad = '${id_contratante}' AND id_tomada = '${id_tomada}' 
+    GROUP BY YEAR(data_consumo), MONTH(data_consumo), day(data_consumo) ORDER BY ano, mes, dia;
+    `;
+  
+  connection.query(sqlQuery, (err, results) => {
+    if (err) {
+      console.error('Erro ao executar a consulta:', err);
+      res.status(500).json({ error: 'Erro ao executar a consulta' });
+    }
+    else{
+      const arrayComponent = preencherAnoMesDiaComZeros(results);
+      let data = [];
+      let tmp = [];
+      let mes = null;
+      arrayComponent.forEach( iten => {
+        if(mes == iten.mes || mes == null){
+          tmp.push(iten.valor);
+        }
+        else{
+          data.push(tmp);
+          tmp = [];
+          tmp.push(iten.valor)
+        }
+        mes = iten.mes;
+      })
+      data.push(tmp);
+      //res.status(200).json(arrayComponent);
+      //console.log(data.length);
+      res.status(200).json(data);
+    }
+  });
+});
 
 
-  res.status(200).json({message: consumoAtual, status: 200 });
+app.post('/listaConsumoTomada', (req, res) => {
+
+  const id = req.body.id_tomada;
+  let consumoHoje;
+  let valoraPagar;
+  let Consumototal
+
+  let date = new Date();
+  const dia = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
+
+  let sqlQuery = `SELECT id_tomada_consumo, SUM(consumo_hora) AS soma FROM tbl_consumo WHERE id_tomada_consumo = '${id}';`;
+
+  connection.query(sqlQuery, (err, results) => {
+    if (err) {
+      console.error('Erro ao executar a consulta:', err);
+      res.status(500).json({ error: 'Erro ao executar a consulta' });
+    }
+    else{
+      if(results.length !== 0){
+        Consumototal = results[0].soma;
+        valoraPagar = ((Consumototal) * 0.94);
+      }
+      else{
+        Consumototal = 0;
+        valoraPagar = 0;
+      }
+      let sqlQuery2 = `SELECT id_tomada_consumo, SUM(consumo_hora) as soma FROM tbl_consumo WHERE data_consumo = '${dia}' AND id_tomada_consumo = '${id}';`
+      connection.query(sqlQuery2, (err, results) => {
+        if (err){
+          res.status(500).json({ error: 'Erro ao executar a consulta' });
+        }
+        else{
+          if (results[0].soma !== null){
+            consumoHoje = results[0].soma.toFixed(2);
+          }
+          else{
+            consumoHoje = 0.00;
+          }
+          res.status(200).json({Consumototal: Consumototal.toFixed(2), consumoHoje: consumoHoje, totalAPagar: valoraPagar.toFixed(2)});
+        }
+      })
+    }
+
+  });
+
 })
-
 
 
 app.post('/cadastrarContratante', (req, res) => {
@@ -315,10 +487,9 @@ app.post('/findContratante', (req, res) => {
 
 app.post('/FindUser', (req, res) => {
     // Obtenha os dados do corpo da requisição (request body)
-    console.log(req.body);
+    //console.log(req.body);
     const email = req.body.email_usuario
     const login = JSON.stringify(req.body);
-    console.log(login);
 
     // Monta a consulta SQL dinamicamente com os dados recebidos
     const sqlQuery = `SELECT * FROM tbl_usuario WHERE email_usuario = '${email}'`;
@@ -330,9 +501,9 @@ app.post('/FindUser', (req, res) => {
         res.status(500).json({ error: 'Erro ao executar a consulta' });
         return;
       }
-  
+
       // Retorna os resultados da consulta como resposta
-      res.json(results);
+      res.status(200).json({results});
     });
   
 
@@ -389,7 +560,7 @@ app.post('/RemoveUserByLogin', (req, res) => {
         res.status(500).json({ error: 'Erro ao executar a consulta1' });
       }
       else{
-        console.log(results)
+        //console.log(results)
         if(results != []){
           if(results[0].email_usuario == email && results[0].senha_usuario == senha){
             const id = results[0].id_usuario; 
@@ -411,16 +582,38 @@ app.post('/RemoveUserByLogin', (req, res) => {
       }
     }
   });
-
-
 })
+
+app.post('/ListaGeralTomadas', (req, res) => {
+  
+  const id = req.body.id;
+
+  const sqlQuery = 
+    `SELECT YEAR(data_consumo) AS ano, MONTH(data_consumo) AS mes, SUM(consumo_hora) AS soma FROM tbl_consumo, tbl_tomada where id_contratante_tomad = '${id}' GROUP BY YEAR(data_consumo), MONTH(data_consumo) ORDER BY ano, mes;`;
+  
+  connection.query(sqlQuery, (err, results) => {
+    if (err) {
+      console.error('Erro ao executar a consulta:', err);
+      res.status(500).json({ error: 'Erro ao executar a consulta' });
+    }
+    else{
+      const meses = preencherMesesComZeros(results);
+      const data = [];
+      meses.forEach(mes => {
+        data.push(mes.soma);
+      });
+      res.status(200).json(data);
+    }
+  });
+});
+
 
 
 app.post('/Login', (req, res) => {
   // Obtenha os dados do corpo da requisição (request body)
   const email = req.body.email_usuario
   const senha = req.body.senha_usuario;
-
+  const token = GenerateToken(128);
   // Monta a consulta SQL dinamicamente com os dados recebidos
   const sqlQuery = `SELECT * FROM tbl_usuario WHERE email_usuario = '${email}'`;
 
@@ -429,19 +622,26 @@ app.post('/Login', (req, res) => {
     if (err) {
       console.error('Erro ao executar a consulta:', err);
       res.status(500).json({ error: 'Erro ao executar a consulta' });
-      return;
     }
     const user = results;
     if(email == user[0].email_usuario && senha == user[0].senha_usuario){
-      res.status(200).json({message: "Successfully in Login", status: 200 , token: "daojmdf9a03j=f093fa9fjasaj903@"});
+      const sqlQuery2 = `UPDATE tbl_usuario SET authentication_token = '${token}'WHERE email_usuario = '${email}'`;
+      connection.query(sqlQuery2, (err, results) => {
+        if (err) {
+          console.error('Erro ao executar a consulta:', err);
+          res.status(500).json({ error: 'Erro ao executar a consulta' });
+        }
+        else{
+          res.status(200).json({message: "Successfully in Login", status: 200 , token: token , id_usuario: user[0].id_contratante_usuar});
+        }
+      })
     }
     else{
-      res.status(403).json({message: "Error in Login", status: 403, token: "daojmdf9a03j=f093fa9fjasaj903@"});
+      res.status(403).json({message: "Error in Login", status: 403});
     }
   });
 
 
 });
-
 
 

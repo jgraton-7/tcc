@@ -20,6 +20,7 @@ CREATE TABLE tbl_tomada(
 
 	id_tomada				INT(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
     desc_tomada				VARCHAR(50) NOT NULL,
+    comodo_tomada			VARCHAR(50) NOT NULL,
     status_tomada			INT(1) NOT NULL,
     id_contratante_tomad	INT(10) NOT NULL
 
@@ -79,11 +80,9 @@ REFERENCES tbl_endereco(cep_endereco);
 
 # Criação das Views
 
-CREATE OR REPLACE VIEW vw_tomada_consumo AS
-	SELECT id_tomada, desc_tomada, 
-			status_tomada, id_contratante_tomad, 
-			id_consumo, consumo_hora, 
-            data_consumo, id_tomada_consumo, 
-            SUM(consumo_hora), AVG(consumo_hora)
-	FROM tbl_tomada t, tbl_consumo c
-	WHERE id_tomada = id_tomada_consumo;
+CREATE OR REPLACE VIEW vw_consumo AS
+	SELECT id_tomada, DAY(data_consumo) dia,
+			SUM(consumo_hora) consumo_dia
+	FROM tbl_consumo, tbl_tomada
+    WHERE tbl_consumo.id_tomada_consumo = tbl_tomada.id_tomada
+    GROUP BY DAY(data_consumo);

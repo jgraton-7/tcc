@@ -12,6 +12,14 @@ function AddOutlet(){
 
     return(
         <div className='AddOutlet'>
+            <div>
+                <select></select>
+                <span>Coloque um nome que facilita a identificação da tomada</span>
+            </div>
+            <div>
+                <input type='text' placeholder='Name Tomada'></input>
+                <span>Coloque um nome que facilita a identificação da tomada</span>
+            </div>
             <div className='box'>
                 <div className='topSideBox'>
                     <div className='boxTitle'>

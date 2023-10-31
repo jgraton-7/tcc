@@ -3,9 +3,7 @@ import './index.css'
 import { useParams} from 'react-router-dom'
 import { useState, useEffect } from 'react'
 
-import { Link } from 'react-router-dom';
-
-import HookTomadas from '../../hooks'
+import { Link , useNavigate} from 'react-router-dom'
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 
@@ -50,6 +48,8 @@ ChartJS.register(
   Legend
 );
 
+const token = sessionStorage.getItem('Token');
+
 export const options = {
   responsive: true,
   plugins: {
@@ -87,6 +87,13 @@ export const optionsbar = {
 
 function DetalhesItem(){
 
+  const navigate = useNavigate();
+  console.log(token);
+
+  // if(token == null || token == undefined){
+  //   navigate('/');
+  // }
+
   const [Tomadas2, setTomadas2] = useState();
   const [Tomadas, setTomadas] = useState([{
     "id_tomada": '',
@@ -94,112 +101,105 @@ function DetalhesItem(){
     "status_tomada": "",
     "id_contratante_tomad": ""
   }])
-  const [Consumo, setConsumo] = useState({
-    consumoTotal: '',
-    consumoEstimado: '',
-    valoraPagar: '',
-    consumoTomadas: [],
-  });
+  const [Consumo, setConsumo] = useState({});
 
   const {id} = useParams();
+
+  const id_usuario = sessionStorage.getItem("idUsuario");
   
   let responseApi = [];
-  let soma = 0;
 
   const txt = "Consumo tomadas Ano ";  
 
-  const [FiltorMes, setFiltorMes] = useState("1");
-  const [consumoMes, setconsumoMes] = useState([]);
+  const [FiltorMes, setFiltorMes] = useState(0);
 
-  const MesDefaul = () =>{
-    setconsumoMes(responseApi);
-  }
+  const [consumoMes, setconsumoMes] = useState([]);
+  
+  React.useEffect(() => {
+    axios.post('http://localhost:3000/listaConsumoTomadaDia', {"id" : id_usuario, "id_tomada": id}).then((response) => {
+      responseApi = (response.data);
+      setconsumoMes(response.data[FiltorMes]);
+      //console.log(responseApi[1]);
+    }).catch(err => console.log(err));
+  }, [Consumo, FiltorMes, id]);
+
+  React.useEffect(() => {
+    axios.post('http://localhost:3000/ListaDeTomadas', {"id" : id_usuario}).then((response) => {
+      setTomadas(response.data.results);
+      //console.log(response.data.results);
+    }).catch(err => console.log(err));
+  }, [Consumo, id]);
+
+  React.useEffect(() => {
+    axios.post('http://localhost:3000/listaConsumoTomada', {"id_tomada" : id}).then((response) => {
+      setConsumo(response.data);
+      //console.log(response.data.results);
+    }).catch(err => console.log(err));
+  }, [Consumo, id]);
 
   useEffect(() => {
-    MesDefaul();
-
-    // api Tomadas
-    axios.post('http://localhost:3000/ListaDeTomadas', {"id" : 1}).then((response) => {
-      setTomadas(response.data.results);
-    }).catch(err => console.log(err));
-    // api Consumo
-    axios.post('http://localhost:3000/dadosConsumo', {"token" : "12345"}).then((response) => {
-      setConsumo(response.data);
-    }).catch(err => console.log(err));
-
-    axios.post('http://localhost:3000/listaConsumoTomadaMes', {
-      "id_tomada": id,
-      "mes": FiltorMes
-    }).then((response) => {
-      for (let index in response.data){
-        responseApi.push(response.data[index].consumo_hora);
-      }
-      console.log(responseApi);
-    }).catch(err => console.log(err));
-
-    options.plugins.title.text = txt + 'January';
-    
+    setconsumoMes(responseApi[0])
   }, [id, FiltorMes]);
 
   const handleSelectChange = (event) => {
     if(event.target.value === 'January'){
-      setFiltorMes('1');
-      setconsumoMes(responseApi);
+      setFiltorMes(0);
+      setconsumoMes(responseApi[0]);
       options.plugins.title.text = txt + 'January';
     }
     else if(event.target.value === 'February'){
-      setFiltorMes('2');
-      setconsumoMes(responseApi);
+      setFiltorMes(1);
+      setconsumoMes(responseApi[1]);
       options.plugins.title.text = txt + 'February';
     }
     else if(event.target.value === 'March'){
-      setFiltorMes('3');
-      setconsumoMes(responseApi);
+      setFiltorMes(2);
+      setconsumoMes(responseApi[2]);
       options.plugins.title.text = txt + 'March';
     }
     else if(event.target.value === 'April'){
-      setFiltorMes('4');
-      setconsumoMes(responseApi);
+      setFiltorMes(3);
+      setconsumoMes(responseApi[3]);
       options.plugins.title.text = txt + 'April';
     }
     else if(event.target.value === 'May'){
-      setFiltorMes('5');
-      setconsumoMes(responseApi);
+      setFiltorMes(4);
+      setconsumoMes(responseApi[4]);
       options.plugins.title.text = txt + 'May';
     }
     else if(event.target.value === 'June'){
-      setFiltorMes('6');
-      setconsumoMes(responseApi);
+      setFiltorMes(5);
+      setconsumoMes(responseApi[5]);
       options.plugins.title.text = txt + 'June';
     }
     else if(event.target.value === 'July'){
-      setFiltorMes('7');
-      setconsumoMes(responseApi);
+      setFiltorMes(6);
+      setconsumoMes(responseApi[6]);
       options.plugins.title.text = txt + 'July';
     }
     else if(event.target.value === 'August'){
-      setFiltorMes('8');
-      setconsumoMes(responseApi);
+      setFiltorMes(7);
+      setconsumoMes(responseApi[7]);
       options.plugins.title.text = txt + 'August';
     }
     else if(event.target.value === 'September'){
-      setFiltorMes('9');
-      setconsumoMes(responseApi);
+      setFiltorMes(8);
+      setconsumoMes(responseApi[8]);
       options.plugins.title.text = txt + 'September';
     }
     else if(event.target.value === 'October'){
-      setFiltorMes('10');
-      setconsumoMes(responseApi);
+      setFiltorMes(9);
+      setconsumoMes(responseApi[9]);
       options.plugins.title.text = txt + 'October';
     }
     else if(event.target.value === 'November'){
-      setFiltorMes('11');
-      setconsumoMes(responseApi);
+      setFiltorMes(10);
+      setconsumoMes(responseApi[10]);
       options.plugins.title.text = txt + 'November';
     }
     else if(event.target.value === 'December'){
-      setFiltorMes('12');
-      setconsumoMes(responseApi);
+      setFiltorMes(11);
+      setconsumoMes(responseApi[11]);
       options.plugins.title.text = txt + 'December';
     }
 
@@ -208,7 +208,8 @@ function DetalhesItem(){
 
   const labels = [1, 2, 3, 4, 5, 6,7 ,8 ,9 ,10 ,11 ,12 ,13 ,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
 
-  const data = {
+  //console.log(consumoMes)
+  let data = {
     labels,
     datasets: [
       {
@@ -243,15 +244,15 @@ function DetalhesItem(){
           <div className='positionConsumo'>
           <div className='blockConsumo'>
             <p className='tilteConsumo'>Consumo total</p>
-            <p className='valorConsumo'>{Consumo.consumoTotal}</p>
+            <p className='valorConsumo'>{Consumo.Consumototal} KWH</p>
           </div>
           <div className='blockConsumo'>
-            <p className='tilteConsumo'>Consumo estimada mensal</p>
-            <p className='valorConsumo'>{Consumo.consumoEstimado}</p>
+            <p className='tilteConsumo'>Consumo hoje</p>
+            <p className='valorConsumo'>{Consumo.consumoHoje} KWH</p>
           </div>
           <div className='blockConsumo'>
             <p className='tilteConsumo'>Valor a paga</p>
-            <p className='valorConsumo'>{Consumo.valoraPagar}</p>
+            <p className='valorConsumo'>R$: {Consumo.totalAPagar}</p>
           </div>
           </div>
         </div>

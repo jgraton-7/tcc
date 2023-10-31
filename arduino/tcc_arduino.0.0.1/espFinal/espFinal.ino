@@ -34,6 +34,7 @@ void setup() {
     delay(500);
     Serial.print(".");
   }
+  
   pinMode(16, OUTPUT);
   digitalWrite(16, LOW);
 
@@ -57,13 +58,11 @@ void setup() {
   http.end();
   Serial.print(httpCode);
 
-  delay(5000);
 }
 
 void loop() {
   
  if (WiFi.status() == WL_CONNECTED) {
-      
     HTTPClient http;
     DynamicJsonDocument doc(2048);
     json = "";
@@ -76,12 +75,12 @@ void loop() {
     //Serial.println(httpCode);
     response = http.getString();
     if(response != 0){
+      delay(2000);
       if (response[18] == '1'){
         digitalWrite(16, LOW);
       }
       else{
         digitalWrite(16, HIGH);
-
       }
     }
     //fechando a conexão

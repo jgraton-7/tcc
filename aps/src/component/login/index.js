@@ -4,11 +4,12 @@ import axios from "axios"
 
 import { useNavigate } from 'react-router-dom';
 
-function Login(){
 
+function Login(){
 
     const [email_usuario, setEmail] = useState('');
     const [senha_usuario, setSenha] = useState('');
+    sessionStorage.clear();
 
     const navigate = useNavigate();
 
@@ -24,12 +25,21 @@ function Login(){
 
         event.preventDefault()
         const resposta = {
-            email_usuario,
-            senha_usuario
+            "email_usuario": email_usuario,
+            "senha_usuario":senha_usuario
         }
         axios.post("http://localhost:3000/Login", resposta)
         .then(resposta => {
-                resposta.status === 200  ? navigate('/home') : navigate('/')
+                console.log("resposta api" + resposta.status)
+                if(resposta.status === 200){
+                    sessionStorage.setItem('idUsuario', resposta.data.id_usuario);
+                    sessionStorage.setItem('Token', resposta.data.token);
+                    navigate('/home');
+                }
+                else{
+                    localStorage.clear();
+                    navigate('/');
+                }
         })
         .catch(err => console.log(err)) 
     }
