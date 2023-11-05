@@ -87,13 +87,6 @@ export const optionsbar = {
 
 function DetalhesItem(){
 
-  const navigate = useNavigate();
-  console.log(token);
-
-  // if(token == null || token == undefined){
-  //   navigate('/');
-  // }
-
   const [Tomadas2, setTomadas2] = useState();
   const [Tomadas, setTomadas] = useState([{
     "id_tomada": '',
@@ -101,7 +94,7 @@ function DetalhesItem(){
     "status_tomada": "",
     "id_contratante_tomad": ""
   }])
-  const [Consumo, setConsumo] = useState({});
+  const [Consumo, setConsumo] = useState([]);
 
   const {id} = useParams();
 
@@ -133,7 +126,7 @@ function DetalhesItem(){
   React.useEffect(() => {
     axios.post('http://localhost:3000/listaConsumoTomada', {"id_tomada" : id}).then((response) => {
       setConsumo(response.data);
-      //console.log(response.data.results);
+      console.log(response.data);
     }).catch(err => console.log(err));
   }, [Consumo, id]);
 
@@ -242,26 +235,30 @@ function DetalhesItem(){
       <div className='content'>
         <div className='containerConsumo'>
           <div className='positionConsumo'>
-          <div className='blockConsumo'>
+          <div className='blockConsumoIntes'>
             <p className='tilteConsumo'>Consumo total</p>
             <p className='valorConsumo'>{Consumo.Consumototal} KWH</p>
           </div>
-          <div className='blockConsumo'>
+          <div className='blockConsumoIntes'>
             <p className='tilteConsumo'>Consumo hoje</p>
             <p className='valorConsumo'>{Consumo.consumoHoje} KWH</p>
           </div>
-          <div className='blockConsumo'>
+          <div className='blockConsumoIntes'>
+            <p className='tilteConsumo'>Consumo Atual</p>
+            <p className='valorConsumo'>{Consumo.ultimoConsumo} KWH</p>
+          </div>
+          <div className='blockConsumoIntes'>
             <p className='tilteConsumo'>Valor a paga</p>
-            <p className='valorConsumo'>R$: {Consumo.totalAPagar}</p>
+            <p className='valorConsumo'>R$:{Consumo.totalAPagar}</p>
           </div>
           </div>
         </div>
         <div className='containerGraficos'>
-          <div>
-            <div className='linechart'>
+          <div className='blockgraficos'>
+            <div className='linechartIten'>
               <Line options={options} data={data} />
             </div>
-            <div className='groupedBarChart'>
+            <div className='groupedBarChartIten'>
               <Bar options={optionsbar} data={data} />
             </div>
           </div>

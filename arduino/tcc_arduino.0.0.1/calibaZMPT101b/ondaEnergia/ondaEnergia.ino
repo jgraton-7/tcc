@@ -1,6 +1,5 @@
 #include <ZMPT101B.h>
 
-
 void setup() {
   Serial.begin(115200);
 }
@@ -10,3 +9,4 @@ void loop() {
   delayMicroseconds(1000);
   delay(500);
 }
+

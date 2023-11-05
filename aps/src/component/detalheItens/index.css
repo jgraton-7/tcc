@@ -1,0 +1,25 @@
+.blockConsumoIntes{
+    width: 15.8%;
+    height: 150px;
+    margin-left: 45px;
+    margin-right: 2px;
+    margin-top: 25px;
+    background-color: white;
+
+}
+
+.linechartIten{
+    width: 720px ;
+    height: 350px;
+    margin-left: 45px;
+    margin-top: 25px;
+    background-color: white;
+}
+
+.groupedBarChartIten{
+    width: 720px ;
+    height: 350px;
+    margin-left: 45px;
+    margin-top: 25px;
+    background-color: white;
+}

@@ -60,9 +60,6 @@ function Home() {
 
   const navigate = useNavigate();
 
-  if(token == null || token == undefined){
-     navigate('/');
-  }
   
   const options = {
     responsive: true,
@@ -131,7 +128,7 @@ function Home() {
 
   React.useEffect(() => {
     axios.post('http://localhost:3000/ListaDeTomadas', {"id" : id_usuario}).then((response) => {
-      setTomadas(response.data.results);
+      setTomadas(response.data.results);  
     }).catch(err => console.log(err));
   }, [Tomadas]);
 
