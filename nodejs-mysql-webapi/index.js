@@ -657,7 +657,7 @@ app.post('/Login', (req, res) => {
           res.status(500).json({ error: 'Erro ao executar a consulta' });
         }
         else{
-          res.status(200).json({message: "Successfully in Login", status: 200 , token: token , id_usuario: user[0].id_contratante_usuar});
+          res.status(200).json({message: "Successfully in Login", status: 200 , autohenticate: 'autohenticate', token: token , id_usuario: user[0].id_contratante_usuar});
         }
       })
     }

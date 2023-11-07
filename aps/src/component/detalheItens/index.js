@@ -109,7 +109,7 @@ function DetalhesItem(){
   const [consumoMes, setconsumoMes] = useState([]);
   
   React.useEffect(() => {
-    axios.post('http://localhost:3000/listaConsumoTomadaDia', {"id" : id_usuario, "id_tomada": id}).then((response) => {
+    axios.post('http://34.151.196.197/listaConsumoTomadaDia', {"id" : id_usuario, "id_tomada": id}).then((response) => {
       responseApi = (response.data);
       setconsumoMes(response.data[FiltorMes]);
       //console.log(responseApi[1]);
@@ -117,14 +117,14 @@ function DetalhesItem(){
   }, [Consumo, FiltorMes, id]);
 
   React.useEffect(() => {
-    axios.post('http://localhost:3000/ListaDeTomadas', {"id" : id_usuario}).then((response) => {
+    axios.post('http://34.151.196.197/ListaDeTomadas', {"id" : id_usuario}).then((response) => {
       setTomadas(response.data.results);
       //console.log(response.data.results);
     }).catch(err => console.log(err));
   }, [Consumo, id]);
 
   React.useEffect(() => {
-    axios.post('http://localhost:3000/listaConsumoTomada', {"id_tomada" : id}).then((response) => {
+    axios.post('http://34.151.196.197/listaConsumoTomada', {"id_tomada" : id}).then((response) => {
       setConsumo(response.data);
       console.log(response.data);
     }).catch(err => console.log(err));
@@ -254,7 +254,7 @@ function DetalhesItem(){
           </div>
         </div>
         <div className='containerGraficos'>
-          <div className='blockgraficos'>
+          <div className='blockgraficosIten'>
             <div className='linechartIten'>
               <Line options={options} data={data} />
             </div>

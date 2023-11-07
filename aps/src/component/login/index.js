@@ -28,10 +28,10 @@ function Login(){
             "email_usuario": email_usuario,
             "senha_usuario":senha_usuario
         }
-        axios.post("http://localhost:3000/Login", resposta)
+        axios.post("http://34.151.196.197/Login", resposta)
         .then(resposta => {
-                console.log("resposta api" + resposta.status)
-                if(resposta.status === 200){
+                console.log(resposta.data.autohenticate)
+                if(resposta.data.autohenticate == 'autohenticate'){
                     sessionStorage.setItem('idUsuario', resposta.data.id_usuario);
                     sessionStorage.setItem('Token', resposta.data.token);
                     navigate('/home');

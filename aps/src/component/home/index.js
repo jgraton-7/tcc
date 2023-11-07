@@ -47,18 +47,19 @@ ChartJS.register(
   Legend
 );
 
+let id_usuario
 
 const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October ', 'November ', 'December' ];
 
 const datasets = [];
 
-let id_usuario = sessionStorage.getItem('idUsuario');
+
+
+console.log(id_usuario)
 
 const token = sessionStorage.getItem('Token');
 
 function Home() {
-
-  const navigate = useNavigate();
 
   
   const options = {
@@ -114,20 +115,20 @@ function Home() {
   const [consumoTotalArray, setconsumoTotalArray] = useState([]);
 
     React.useEffect(() => {
-    axios.post('http://localhost:3000/ListaGeralTomadas', {"id" : id_usuario}).then((response) => {
+    axios.post('http://34.151.196.197/ListaGeralTomadas', {"id" : id_usuario}).then((response) => {
       setconsumoTotalArray(response.data);
     }).catch(err => console.log(err));
   }, [consumoTotalArray]);
 
 
   React.useEffect(() => {
-    axios.post('http://localhost:3000/dadosConsumo', {"id" : id_usuario}).then((response) => {
+    axios.post('http://34.151.196.197/dadosConsumo', {"id" : id_usuario}).then((response) => {
       setConsumo(response.data);
     }).catch(err => console.log(err));
   }, [Consumo]);
 
   React.useEffect(() => {
-    axios.post('http://localhost:3000/ListaDeTomadas', {"id" : id_usuario}).then((response) => {
+    axios.post('http://34.151.196.197/ListaDeTomadas', {"id" : id_usuario}).then((response) => {
       setTomadas(response.data.results);  
     }).catch(err => console.log(err));
   }, [Tomadas]);
@@ -170,8 +171,8 @@ function Home() {
     };
 
     useEffect(() => {
+      id_usuario = sessionStorage.getItem('idUsuario');
       person();
-
     }, []);
 
     let data = {
