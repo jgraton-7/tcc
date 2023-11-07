@@ -51,7 +51,7 @@ void setup() {
   doc["mac_address"] = mac_address;
   serializeJson(doc, json);
   Serial.print(json);
-  http.begin(wifiClient, "http://192.168.0.10:3000/ligaTomada");
+  http.begin(wifiClient, "http://34.151.196.197/ligaTomada");
   http.addHeader("Content-Type", "application/json");
   httpCode = http.POST(json);
   response = http.getString();
@@ -68,7 +68,7 @@ void loop() {
     json = "";
     doc["mac_address"] = mac_address;
     serializeJson(doc, json);
-    http.begin(wifiClient, "http://192.168.0.10:3000/releEsp8266");// get the result (**the error code**)
+    http.begin(wifiClient, "http://34.151.196.197/releEsp8266");// get the result (**the error code**)
     // passar o content e o tipo de dado no caso json
     http.addHeader("Content-Type", "application/json");
     httpCode = http.POST(json);
@@ -118,7 +118,7 @@ void loop() {
         serializeJson(doc, json);
 
         //iniciar com client + http api
-        http.begin(wifiClient, "http://192.168.0.10:3000/adicionarMedicaoTomada");// get the result (**the error code**)
+        http.begin(wifiClient, "http://34.151.196.197/adicionarMedicaoTomada");// get the result (**the error code**)
         // passar o content e o tipo de dado no caso json
         http.addHeader("Content-Type", "application/json");
         int httpCode = http.POST(json);
@@ -136,6 +136,6 @@ void loop() {
 
  }
 
-  delay(10000);
+  delay(5000);
 
 }

@@ -190,8 +190,32 @@ app.post('/adicionarMedicaoTomada', (req, res) => {
   const consumo_hora = (volt * amp)/1000;
   
   let GROUP;
-
   if(amp >= 10 || volt > 180 ){
+    const sqlQuery = `SELECT comodo_tomada FROM tbl_tomada WHERE id_tomada = '${mac_address}'`
+
+    connection.query(sqlQuery, (err, results) =>{
+      if (err) {
+        console.error('Erro ao executar a consulta:', err);
+        res.status(500).json({ error: 'Erro ao executar a consulta' });
+      }
+      else{
+        GROUP = results[0].comodo_tomada;
+        const sqlQuery2 = `UPDATE tbl_tomada SET status_tomada = 0 WHERE id_tomada = '${mac_address}'`;
+        // Executa a consulta ao banco de dados
+        connection.query(sqlQuery2, (err, results) => { 
+          if (err) {
+            console.error('Erro ao executar a consulta:', err);
+            res.status(500).json({ error: 'Erro ao executar a consulta' });
+          }
+          else{
+            // nao sei pq funciona mas funciona. Não mexer
+            res.status(200).json(results);
+          }
+        });
+      }
+    })
+  }
+  else if(amp >= 15 || volt > 180 ){
 
     const sqlQuery = `SELECT comodo_tomada FROM tbl_tomada WHERE id_tomada = '${mac_address}'`
 

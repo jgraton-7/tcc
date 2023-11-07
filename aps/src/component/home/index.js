@@ -53,8 +53,6 @@ const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 
 
 const datasets = [];
 
-
-
 console.log(id_usuario)
 
 const token = sessionStorage.getItem('Token');
