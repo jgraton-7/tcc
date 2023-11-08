@@ -296,7 +296,12 @@ app.post('/calcularMediaConsumo', (req, res) => {
     }
     else {
         if(results.length !== 0){
-          consumoTotal = results[0].consumo_dia.toFixed(2);
+          if(results[0].consumo_dia !== null){
+            consumoTotal = results[0].consumo_dia.toFixed(2);
+          }
+          else{
+            consumoTotal = 0;
+          }
           consumo = (consumoTotal * 0.94).toFixed(2);
         }
         else{
