@@ -447,7 +447,12 @@ app.post('/listaConsumoTomada', (req, res) => {
     else{
       console.log(results);
       if(results.length !== 0 || results !== undefined || results[0].soma !== null){
-        Consumototal = results[0].soma.toFixed(2);
+        if( results[0].soma !== null){
+          Consumototal = results[0].soma.toFixed(2);
+        }
+        else{
+          Consumototal = 0;
+        }
         valoraPagar = ((Consumototal) * 0.94).toFixed(2);
       }
       else{
