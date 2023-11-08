@@ -446,8 +446,8 @@ app.post('/listaConsumoTomada', (req, res) => {
     }
     else{
       if(results.length !== 0){
-        Consumototal = results[0].soma;
-        valoraPagar = ((Consumototal) * 0.94);
+        Consumototal = results[0].soma.toFixed(2);
+        valoraPagar = ((Consumototal) * 0.94).toFixed(2);
       }
       else{
         Consumototal = 0;
@@ -478,7 +478,7 @@ app.post('/listaConsumoTomada', (req, res) => {
                 ultimoConsumo = 0.00;
               }
             }
-            res.status(200).json({Consumototal: Consumototal.toFixed(2), consumoHoje: consumoHoje, totalAPagar: valoraPagar.toFixed(2), ultimoConsumo: ultimoConsumo});
+            res.status(200).json({Consumototal: Consumototal, consumoHoje: consumoHoje, totalAPagar: valoraPagar, ultimoConsumo: ultimoConsumo});
           })
         }
       })
