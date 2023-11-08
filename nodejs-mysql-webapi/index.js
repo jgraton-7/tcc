@@ -445,7 +445,7 @@ app.post('/listaConsumoTomada', (req, res) => {
       res.status(500).json({ error: 'Erro ao executar a consulta' });
     }
     else{
-      if(results.length !== 0){
+      if(results.length !== 0 || results !== undefined || results[0].soma !== null){
         Consumototal = results[0].soma.toFixed(2);
         valoraPagar = ((Consumototal) * 0.94).toFixed(2);
       }
