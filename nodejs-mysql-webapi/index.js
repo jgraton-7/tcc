@@ -645,7 +645,7 @@ app.post('/ListaGeralTomadas', (req, res) => {
   const id = req.body.id;
 
   const sqlQuery = 
-    `SELECT YEAR(data_consumo) ano, MONTH(data_consumo) mes, SUM(consumo_hora) FROM tbl_consumo LEFT JOIN tbl_tomada ON id_tomada = id_tomada_consumo WHERE id_contratante_tomad = '${id}' group by YEAR(data_consumo), MONTH(data_consumo);`;
+    `SELECT YEAR(data_consumo) as ano, MONTH(data_consumo) as mes, SUM(consumo_hora) as soma FROM tbl_consumo LEFT JOIN tbl_tomada ON id_tomada = id_tomada_consumo WHERE id_contratante_tomad = '${id}' group by YEAR(data_consumo), MONTH(data_consumo);`;
   
   connection.query(sqlQuery, (err, results) => {
     if (err) {
