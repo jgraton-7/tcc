@@ -240,7 +240,7 @@ function DetalhesItem(){
             <p className='valorConsumo'>{Consumo.Consumototal} KWH</p>
           </div>
           <div className='blockConsumoIntes'>
-            <p className='tilteConsumo'>Consumo hoje</p>
+            <p className='tilteConsumo'>Consumo Diário</p>
             <p className='valorConsumo'>{Consumo.consumoHoje} KWH</p>
           </div>
           <div className='blockConsumoIntes'>
@@ -248,8 +248,8 @@ function DetalhesItem(){
             <p className='valorConsumo'>{Consumo.ultimoConsumo} KWH</p>
           </div>
           <div className='blockConsumoIntes'>
-            <p className='tilteConsumo'>Valor a paga</p>
-            <p className='valorConsumo'>R$:{Consumo.totalAPagar}</p>
+            <p className='tilteConsumo'>Valor a pagar</p>
+            <p className='valorConsumo'>R${Consumo.totalAPagar}</p>
           </div>
           </div>
         </div>
