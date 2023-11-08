@@ -402,6 +402,7 @@ app.post('/listaConsumoTomadaDia', (req, res) => {
       res.status(500).json({ error: 'Erro ao executar a consulta' });
     }
     else{
+      console.log(results);
       const arrayComponent = preencherAnoMesDiaComZeros(results);
       let data = [];
       let tmp = [];
