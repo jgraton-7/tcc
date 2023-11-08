@@ -288,7 +288,7 @@ app.post('/calcularMediaConsumo', (req, res) => {
   let date = new Date();
   const dia = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
 
-  const sqlQuery = `SELECT id_tomada, SUM(consumo_hora) consumo_dia FROM tbl_consumo, tbl_tomada where id_contratante_tomad = '${id}' GROUP BY id_tomada;`;
+  const sqlQuery = `SELECT SUM(consumo_hora) consumo_dia FROM tbl_consumo LEFT JOIN tbl_tomada ON id_tomada = id_tomada_consumo WHERE id_contratante_tomad = '${id}' AND MONTH(data_consumo) = MONTH(sysdate()) AND YEAR(data_consumo) = YEAR(sysdate());`;
   connection.query(sqlQuery, (err, results) => {
     if (err) {
       console.log('Erro ao executar a consulta:', err);

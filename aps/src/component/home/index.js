@@ -218,7 +218,7 @@ function Home() {
           </div>
           <div className='blockConsumo'>
             <p className='tilteConsumo'>Valor a pagar</p>
-            <p className='valorConsumo'>R$ {Consumo.valorPagar}</p>
+            <p className='valorConsumo'>R${Consumo.valorPagar}</p>
           </div>
           </div>
         </div>
