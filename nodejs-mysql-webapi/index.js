@@ -390,7 +390,7 @@ app.post('/listaConsumoTomadaDia', (req, res) => {
   const id_tomada = req.body.id_tomada;
 
   const sqlQuery = 
-    `SELECT YEAR(data_consumo), MONTH(data_consumo), DAY(data_consumo), SUM(consumo_hora)
+    `SELECT YEAR(data_consumo) as ano, MONTH(data_consumo) as mes, DAY(data_consumo) as dia, SUM(consumo_hora)
     FROM tbl_consumo
     where id_tomada_consumo = '${id_tomada}'
     GROUP BY YEAR(data_consumo), MONTH(data_consumo), day(data_consumo);
