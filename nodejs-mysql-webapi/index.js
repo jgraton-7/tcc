@@ -190,7 +190,7 @@ app.post('/adicionarMedicaoTomada', (req, res) => {
   const consumo_hora = (volt * amp)/1000;
   
   let GROUP;
-  if(amp >= 10 || volt > 180 ){
+  if((amp >= 10 && amp < 15) || volt > 180 ){
     const sqlQuery = `SELECT comodo_tomada FROM tbl_tomada WHERE id_tomada = '${mac_address}'`
 
     connection.query(sqlQuery, (err, results) =>{
