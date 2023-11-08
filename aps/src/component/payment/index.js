@@ -1,5 +1,9 @@
 import './index.css'
 
+import React, { useState , useEffect } from 'react';
+
+import axios from "axios"
+
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -22,6 +26,8 @@ import {
     Legend
   );
 
+
+let id_usuario
 
 const consumo = []
 
@@ -70,6 +76,21 @@ const modeloAtual = [
 
 
 function Payment(){
+
+    const [Tomadas, setTomadas] = useState([{}])
+
+    React.useEffect(() => {
+        axios.post('http://34.151.196.197/ListaDeTomadas', {"id" : id_usuario}).then((response) => {
+          setTomadas(response.data.results);  
+        }).catch(err => console.log(err));
+      }, [Tomadas]);
+
+
+    useEffect(() => {
+        id_usuario = sessionStorage.getItem('idUsuario');
+      }, []);
+
+
     return(
         <div>
 
@@ -82,9 +103,9 @@ function Payment(){
 
             <label>Escolha o Eletronico que sera usada na comparação</label>
             <select name="Eletronico para comparação">
-                <option value="valor1">Valor 1</option>
-                <option value="valor2">Valor 2</option>
-                <option value="valor3">Valor 3</option>
+                {Tomadas.forEach( (tomada =>{
+                    <option value={tomada.name}>{tomada.name}</option>
+                })) }
             </select>
 
             <Line options={options} data={data} />

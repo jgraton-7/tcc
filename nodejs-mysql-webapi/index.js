@@ -673,20 +673,25 @@ app.post('/Login', (req, res) => {
       res.status(500).json({ error: 'Erro ao executar a consulta' });
     }
     const user = results;
-    if(email == user[0].email_usuario && senha == user[0].senha_usuario){
-      const sqlQuery2 = `UPDATE tbl_usuario SET authentication_token = '${token}'WHERE email_usuario = '${email}'`;
-      connection.query(sqlQuery2, (err, results) => {
-        if (err) {
-          console.error('Erro ao executar a consulta:', err);
-          res.status(500).json({ error: 'Erro ao executar a consulta' });
-        }
-        else{
-          res.status(200).json({message: "Successfully in Login", status: 200 , autohenticate: 'autohenticate', token: token , id_usuario: user[0].id_contratante_usuar});
-        }
-      })
+    if(user.length > 1){
+      if(email == user[0].email_usuario && senha == user[0].senha_usuario){
+        const sqlQuery2 = `UPDATE tbl_usuario SET authentication_token = '${token}'WHERE email_usuario = '${email}'`;
+        connection.query(sqlQuery2, (err, results) => {
+          if (err) {
+            console.error('Erro ao executar a consulta:', err);
+            res.status(500).json({ error: 'Erro ao executar a consulta' });
+          }
+          else{
+            res.status(200).json({message: "Successfully in Login", status: 200 , autohenticate: 'autohenticate', token: token , id_usuario: user[0].id_contratante_usuar});
+          }
+        })
+      }
+      else{
+        res.status(403).json({message: "Error in Login", status: 403});
+      }
     }
     else{
-      res.status(403).json({message: "Error in Login", status: 403});
+      res.status(403).json({message: "Usuario não encontrado"})
     }
   });
 
