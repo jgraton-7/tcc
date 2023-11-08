@@ -390,10 +390,10 @@ app.post('/listaConsumoTomadaDia', (req, res) => {
   const id_tomada = req.body.id_tomada;
 
   const sqlQuery = 
-    `SELECT YEAR(data_consumo) AS ano, MONTH(data_consumo) AS mes, DAY(data_consumo) as dia ,SUM(consumo_hora) AS soma 
-    FROM tbl_consumo, tbl_tomada 
-    where id_contratante_tomad = '${id_contratante}' AND id_tomada = '${id_tomada}' 
-    GROUP BY YEAR(data_consumo), MONTH(data_consumo), day(data_consumo) ORDER BY ano, mes, dia;
+    `SELECT YEAR(data_consumo), MONTH(data_consumo), DAY(data_consumo), SUM(consumo_hora)
+    FROM tbl_consumo
+    where id_tomada_consumo = '${id_tomada}'
+    GROUP BY YEAR(data_consumo), MONTH(data_consumo), day(data_consumo);
     `;
   
   connection.query(sqlQuery, (err, results) => {
@@ -445,7 +445,7 @@ app.post('/listaConsumoTomada', (req, res) => {
       res.status(500).json({ error: 'Erro ao executar a consulta' });
     }
     else{
-      console.log(results);
+      //console.log(results);
       if(results.length !== 0 || results !== undefined || results[0].soma !== null){
         if( results[0].soma !== null){
           Consumototal = results[0].soma.toFixed(2);
