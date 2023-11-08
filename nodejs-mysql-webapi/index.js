@@ -296,8 +296,8 @@ app.post('/calcularMediaConsumo', (req, res) => {
     }
     else {
         if(results.length !== 0){
-          consumoTotal = results[0].consumo_dia;
-          consumo = consumoTotal * 0.94;
+          consumoTotal = results[0].consumo_dia.toFixed(2);
+          consumo = (consumoTotal * 0.94).toFixed(2);
         }
         else{
           consumoDiario = 0;
@@ -312,12 +312,12 @@ app.post('/calcularMediaConsumo', (req, res) => {
           }
           else{
             if(results.length !== 0){
-              consumoDiario = results[0].consumo_dia;
+              consumoDiario = results[0].consumo_dia.toFixed(2);
             }
             else{
               consumoDiario = 0;
             }
-            res.status(200).json({consumoTotal: consumoTotal.toFixed(2), consumoDiario: consumoDiario.toFixed(2), valorPagar: consumo.toFixed(2)})
+            res.status(200).json({consumoTotal: consumoTotal, consumoDiario: consumoDiario, valorPagar: consumo})
           }
         })
       } 

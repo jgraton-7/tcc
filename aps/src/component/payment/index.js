@@ -77,11 +77,12 @@ const modeloAtual = [
 
 function Payment(){
 
-    const [Tomadas, setTomadas] = useState([{}])
+    const [Tomadas, setTomadas] = useState([])
 
     React.useEffect(() => {
         axios.post('http://34.151.196.197/ListaDeTomadas', {"id" : id_usuario}).then((response) => {
           setTomadas(response.data.results);  
+          //console.log(response.data.results);
         }).catch(err => console.log(err));
       }, [Tomadas]);
 
@@ -103,8 +104,9 @@ function Payment(){
 
             <label>Escolha o Eletronico que sera usada na comparação</label>
             <select name="Eletronico para comparação">
-                {Tomadas.forEach( (tomada =>{
-                    <option value={tomada.name}>{tomada.name}</option>
+                {Tomadas.map( (tomada =>{
+                    console.log(tomada.desc_tomada)
+                    // <option value={tomada.desc_tomada}>{tomada.desc_tomada}</option>
                 })) }
             </select>
 
